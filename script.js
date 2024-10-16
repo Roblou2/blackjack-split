@@ -30,8 +30,8 @@ const makeCard= () => {
         };
     };
 
-//create factory function to make player, add makeCard method
-// and get their hand
+//create factory function to make player with
+//methods for making a card, hitting and getting the total and game outcome
 const createPlayer = (name, hand) => {
 
     const cards =  [hand.cardOne, hand.cardTwo] //initialise start
