@@ -2,7 +2,7 @@
 //define suits and cards
 
 let suits = ["Clubs", "Spades", "Hearts", "Diamonds"]
-let unsuitedCards = ["Jack", "Queen", "King", "Ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+let unsuitedCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"]
 
 
 //define a function to make a card
@@ -37,7 +37,7 @@ const createPlayer = (name, hand) => {
     const cards =  [hand.cardOne, hand.cardTwo] //initialise start
     //of game with 2 cards for the hand
 
-    //define method to make a random card
+    let total = 0;
 
 
     let getPlayerName = () => name
@@ -47,18 +47,61 @@ const createPlayer = (name, hand) => {
       let newCard =  makeCard()
      cards.push(newCard)
     }
-    return {getPlayerName, cards, hit}
+
+    let getTotal = () => {
+
+
+
+    for (let i = 0; i < player.cards.length; i++) {
+        let card = player.cards[i].split(" ")[0];  
+        
+       
+        if (!isNaN(card)) {
+            total += parseInt(card);
+        } 
+        
+        else {
+          
+            switch (card) {
+                case 'Jack':
+                case 'Queen':
+                case 'King':
+             
+                    total += 10;
+                    break;
+                case 'Ace':
+                    total += 11;  // add custom logic for Ace as 1 or 11
+                    break;
+                default:
+                    console.log("Invalid card:", player.cards[i]); // For debugging
+            }
+        }
+    }
+
+   if (total > 21) {
+    console.log(player.cards)
+    return "You Lose"
+   }
+
+   else if (total < 21) { 
+    
+
+    return console.log("Total:", total, player.cards)
+   }
+
+   else if (total === 21) {
+    console.log(player.cards)
+    return console.log("Total:", 21, "You Win!")
+   }
+    }
+
+    return {getPlayerName, cards, hit, getTotal}
     }
     
 
-    const player = createPlayer("rob", makeHand()) //get name from frontend
+    const player = createPlayer("Rob", makeHand()) //get name from frontend
+player.hit()
 
-
-    //define a function to add a card to player's hand
-const hit = () => {
-  return player.hit()
-}
-
-//define a function to make game over if hand is above 21
+console.log(player.getTotal())
 
 
