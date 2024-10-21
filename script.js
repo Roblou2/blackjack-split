@@ -1,107 +1,93 @@
-
 //define suits and cards
+let suits = ["Clubs", "Spades", "Hearts", "Diamonds"];
+let unsuitedCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"];
 
-let suits = ["Clubs", "Spades", "Hearts", "Diamonds"]
-let unsuitedCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"]
-
-
-//define a function to make a card
-
-const makeCard= () => {
-
-    const randomSuit = () => Math.floor(Math.random() * 4); //between 0 and 3
-    const random = () =>  Math.floor(Math.random() * 13); //between 0 and 12
-    
-    
-    
-        const getSuit = () => suits[randomSuit()]
-        const getUnsuitedCard = () => unsuitedCards[random()]
-    
-         return `${getUnsuitedCard() + " of " + getSuit()}`
-
-    }
-
-    //define a function to make a hand for start of game
-
-    const makeHand = () => {
-        return {
-            cardOne: makeCard(),
-            cardTwo: makeCard()
-        };
-    };
-
-//create factory function to make player with
-//methods for making a card, hitting and getting the total and game outcome
-const createPlayer = (name, hand) => {
-
-    const cards =  [hand.cardOne, hand.cardTwo] //initialise start
-    //of game with 2 cards for the hand
-
-    let total = 0;
-
-
-    let getPlayerName = () => name
-
-    let hit = () => {
-        
-      let newCard =  makeCard()
-     cards.push(newCard)
-    }
-
-    let getTotal = () => {
-
-
-
-    for (let i = 0; i < player.cards.length; i++) {
-        let card = player.cards[i].split(" ")[0];  
-        
-       
-        if (!isNaN(card)) {
-            total += parseInt(card);
-        } 
-        
-        else {
-          
-            switch (card) {
-                case 'Jack':
-                case 'Queen':
-                case 'King':
-             
-                    total += 10;
-                    break;
-                case 'Ace':
-                    total += 11;  // add custom logic for Ace as 1 or 11
-                    break;
-                default:
-                    console.log("Invalid card:", player.cards[i]); // For debugging
-            }
+// Create a full deck
+const createDeck = () => {
+    let deck = [];
+    for (let suit of suits) {
+        for (let card of unsuitedCards) {
+            deck.push(`${card} of ${suit}`);
         }
     }
+    return deck;
+};
 
-   if (total > 21) {
-    console.log(player.cards)
-    return "You Lose"
-   }
+let deck = createDeck(); // Initialize the deck
 
-   else if (total < 21) { 
-    
+// Function to draw a random card from the deck
+const drawCard = () => {
+    const randomIndex = Math.floor(Math.random() * deck.length);
+    const card = deck[randomIndex];
+    deck.splice(randomIndex, 1); // Remove the drawn card from the deck
+    return card; //return the card which goes into hand 
+};
 
-    return console.log("Total:", total, player.cards)
-   }
+//define a function to make a hand for the start of the game
+const makeHand = () => {
+    return {
+        cardOne: drawCard(),
+        cardTwo: drawCard(),
+    };
+};
 
-   else if (total === 21) {
-    console.log(player.cards)
-    return console.log("Total:", 21, "You Win!")
-   }
-    }
+// Player factory function
+const createPlayer = (name, hand) => {
+    const cards = [hand.cardOne, hand.cardTwo]; //initialize start of game with 2 cards for the hand
+    let total = 0;
 
-    return {getPlayerName, cards, hit, getTotal}
-    }
-    
+    const getPlayerName = () => name;
 
-    const player = createPlayer("Rob", makeHand()) //get name from frontend
-player.hit()
+    const hit = () => {
+        let newCard = drawCard();
+        cards.push(newCard);
+    };
 
-console.log(player.getTotal())
+    const getTotal = () => {
+        total = 0; // Reset total
 
+        for (let i = 0; i < cards.length; i++) {
+            let card = cards[i].split(" ")[0];
 
+            if (!isNaN(card)) {
+                total += parseInt(card);
+            } else {
+                switch (card) {
+                    case "Jack":
+                    case "Queen":
+                    case "King":
+                        total += 10;
+                        break;
+                    case "Ace":
+                        if (total >= 11) {
+                            total += 1;
+                        } 
+                        else if (total < 11) {
+                            total += 11;
+                        }
+                        break;
+                    default:
+                        console.log("Invalid card:", cards[i]);
+                }
+            }
+        }
+
+        if (total > 21) {
+            return "Your total is over 21. You Lose";
+        } 
+        else if (total < 21) {
+            return `Your total is ${total}.`;
+        } 
+        else if (total === 21) {
+            return "You Win!";
+        }
+    };
+
+    return { getPlayerName, cards, hit, getTotal };
+};
+
+const player = createPlayer("Rob", makeHand()); //get name from frontend
+console.log(player.getTotal());
+
+const computer = createPlayer("Computer", makeHand());
+console.log(computer.getTotal());
