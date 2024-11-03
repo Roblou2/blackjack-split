@@ -36,28 +36,19 @@ const createPlayer = (name, hand) => {
     const cards = [hand.cardOne, hand.cardTwo]; //initialize start of game with 2 cards for the hand
     let total = 0;
 
+    const getTotal = () => total
 
     const getFirstCard = () => cards[0]
     const getPlayerName = () => name;
 
-    const getHand = () => {
-
-        const hand = `${name} has a `
-    
-    for (let i=0; i < cards.length; i++) {
-const resultOne = hand.concat(`${cards[i=0]}`)
-const resultTwo = resultOne.concat(` and a ${cards[i=1]}`)
-console.log(resultTwo)
-    }
-   
-}
+    const getHand = () => cards
 
     const hit = () => {
         let newCard = drawCard();
         cards.push(newCard);
     };
 
-    const getTotal = () => {
+    const calcTotal = () => {
         total = 0; // Reset total
 
         for (let i = 0; i < cards.length; i++) {
@@ -87,17 +78,17 @@ console.log(resultTwo)
         }
 
         if (total > 21) {
-            return "Your total is over 21. You Lose";
+            return `${name}'s total is over 21. ${name} loses`;
         } 
         else if (total < 21) {
-            return `Your total is ${total}.`;
+            return `${name}'s total is ${total}.`;
         } 
         else if (total === 21) {
-            return "You Win!";
+            return `${name} wins!`;
         }
     };
 
-    return { getPlayerName, getHand, hit, getTotal, getFirstCard };
+    return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard };
 };
 
 const player = createPlayer("Rob", makeHand()); 
@@ -105,21 +96,54 @@ const player = createPlayer("Rob", makeHand());
 const computer = createPlayer("Computer", makeHand());
 
 
-console.log(player.getTotal())
+console.log(player.calcTotal())
 console.log(`the computer has a ${computer.getFirstCard()}`)
 
 
 const hit = document.body.querySelector("button.hit")
 hit.addEventListener('click', () => {
     player.hit()
-console.log(player.getTotal())
+console.log(player.calcTotal())
 })
+
+//logic for after human player clicks stay
+const gamePlay = () => {
+    console.log(`${player.getPlayerName()} has decided to stay`)
+
+    console.log(computer.calcTotal())
+
+
+if (computer.getTotal() <= 16) {
+    console.log("hit")
+   computer.hit()
+   console.log(computer.getHand())
+   console.log(computer.calcTotal())
+gamePlay() //recalls the function until an outcome is decided
+
+}
+
+ else if (computer.getTotal() > 16) {
+    console.log("The computer's hand is bigger than 16. It must stay")
+
+    //Computer wins
+    if (computer.getTotal() > player.getTotal()) {
+        console.log(`${player.getPlayerName()} loses`)
+    }
+
+
+    //Human player wins
+    else if (computer.getTotal() < player.getTotal()) {
+console.log(`${player.getPlayerName()} wins!`)
+}
+
+
+//Draw scenario
+else if (computer.getTotal() == player.getTotal()) {
+    console.log("Draw!")
+    }
+}
+}
 
 const stay = document.body.querySelector("button.stay")
-stay.addEventListener('click', () => {
-    console.log(`${player.getPlayerName()} has decided to stay`)
-    console.log(player.getHand())
-console.log(computer.getHand())
-
-})
+stay.addEventListener('click', gamePlay)
 
