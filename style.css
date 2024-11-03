@@ -1,0 +1,15 @@
+body {
+    background-color: #34ba77;
+}
+
+button.hit, button.stay {
+    background-color: red;
+    width:200px;
+    height: 50px;
+    font-size: 32px;
+    border-radius: 5%;
+    border: solid;
+    border-color: red;
+    color: white;
+}
+

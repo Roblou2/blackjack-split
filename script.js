@@ -36,7 +36,21 @@ const createPlayer = (name, hand) => {
     const cards = [hand.cardOne, hand.cardTwo]; //initialize start of game with 2 cards for the hand
     let total = 0;
 
+
+    const getFirstCard = () => cards[0]
     const getPlayerName = () => name;
+
+    const getHand = () => {
+
+        const hand = `${name} has a `
+    
+    for (let i=0; i < cards.length; i++) {
+const resultOne = hand.concat(`${cards[i=0]}`)
+const resultTwo = resultOne.concat(` and a ${cards[i=1]}`)
+console.log(resultTwo)
+    }
+   
+}
 
     const hit = () => {
         let newCard = drawCard();
@@ -83,11 +97,29 @@ const createPlayer = (name, hand) => {
         }
     };
 
-    return { getPlayerName, cards, hit, getTotal };
+    return { getPlayerName, getHand, hit, getTotal, getFirstCard };
 };
 
-const player = createPlayer("Rob", makeHand()); //get name from frontend
-console.log(player.getTotal());
+const player = createPlayer("Rob", makeHand()); 
 
 const computer = createPlayer("Computer", makeHand());
-console.log(computer.getTotal());
+
+
+console.log(player.getTotal())
+console.log(`the computer has a ${computer.getFirstCard()}`)
+
+
+const hit = document.body.querySelector("button.hit")
+hit.addEventListener('click', () => {
+    player.hit()
+console.log(player.getTotal())
+})
+
+const stay = document.body.querySelector("button.stay")
+stay.addEventListener('click', () => {
+    console.log(`${player.getPlayerName()} has decided to stay`)
+    console.log(player.getHand())
+console.log(computer.getHand())
+
+})
+
