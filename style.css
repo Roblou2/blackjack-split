@@ -13,3 +13,16 @@ button.hit, button.stay {
     color: white;
 }
 
+.board {
+ display: flex;
+ position: absolute;
+ top: 10%;
+ left: 25%;
+ justify-content: center;
+ align-items: start;
+}
+
+.img-board {
+    width: 1000px;
+    height: 500px;
+}
