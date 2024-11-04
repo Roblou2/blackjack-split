@@ -1,6 +1,6 @@
 //define suits and cards
-let suits = ["Clubs", "Spades", "Hearts", "Diamonds"];
-let unsuitedCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"];
+let suits = ["clubs", "spades", "hearts", "diamonds"];
+let unsuitedCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace"];
 
 // Create a full deck
 const createDeck = () => {
@@ -39,6 +39,8 @@ const createPlayer = (name, hand) => {
     const getTotal = () => total
 
     const getFirstCard = () => cards[0]
+    const getSecondCard = () => cards[1]
+
     const getPlayerName = () => name;
 
     const getHand = () => cards
@@ -59,12 +61,12 @@ const createPlayer = (name, hand) => {
                 total += parseInt(card);
             } else {
                 switch (card) {
-                    case "Jack":
-                    case "Queen":
-                    case "King":
+                    case "jack":
+                    case "queen":
+                    case "king":
                         total += 10;
                         break;
-                    case "Ace":
+                    case "ace":
                         if (total >= 11) {
                             total += 1;
                         } 
@@ -89,7 +91,7 @@ const createPlayer = (name, hand) => {
         }
     };
 
-    return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard };
+    return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard, getSecondCard };
 };
 
 //make human and computer players//
@@ -151,4 +153,21 @@ else if (computer.getTotal() == player.getTotal()) {
 //button function calls
 const stay = document.body.querySelector("button.stay")
 stay.addEventListener('click', gamePlay)
+
+//player img elements
+const playerCardOne = document.body.querySelector(".player-cards img")
+const playerCardTwo =  document.body.querySelector("img.player-card-two")
+
+
+playerCardOne.src=`./images/cards/${player.getFirstCard()}.jpg`
+playerCardTwo.src=`./images/cards/${player.getSecondCard()}.jpg`
+
+
+//comp img elements
+
+const compCardOne = document.body.querySelector(".computer-cards img")
+const compCardTwo =  document.body.querySelector("img.computer-card-two")
+
+compCardOne.src=`./images/cards/${computer.getFirstCard()}.jpg`
+compCardTwo.src=`./images/cards/${computer.getSecondCard()}.jpg`
 

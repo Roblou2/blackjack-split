@@ -20,9 +20,33 @@ button.hit, button.stay {
  left: 25%;
  justify-content: center;
  align-items: start;
+
 }
 
 .img-board {
     width: 1000px;
     height: 500px;
+    z-index: 5;
 }
+
+.player-cards, .computer-cards {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+   
+}
+
+.computer-cards img {
+    width: 4vw; 
+    height: auto;
+    padding-top: 12%;
+    z-index: 10;
+}
+
+.player-cards img {
+    width: 4vw;
+    height: auto;
+    z-index: 10;
+   padding-top: 12%;
+}
+
