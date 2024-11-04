@@ -31,7 +31,7 @@ const makeHand = () => {
     };
 };
 
-// Player factory function
+// createPlayer factory function
 const createPlayer = (name, hand) => {
     const cards = [hand.cardOne, hand.cardTwo]; //initialize start of game with 2 cards for the hand
     let total = 0;
@@ -44,6 +44,7 @@ const createPlayer = (name, hand) => {
     const getHand = () => cards
 
     const hit = () => {
+        console.log(`${name} hits`)
         let newCard = drawCard();
         cards.push(newCard);
     };
@@ -91,12 +92,15 @@ const createPlayer = (name, hand) => {
     return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard };
 };
 
+//make human and computer players//
 const player = createPlayer("Rob", makeHand()); 
 
 const computer = createPlayer("Computer", makeHand());
 
-
+//get human total//
 console.log(player.calcTotal())
+
+//show comp's first card (as dealer)//
 console.log(`the computer has a ${computer.getFirstCard()}`)
 
 
@@ -106,7 +110,7 @@ hit.addEventListener('click', () => {
 console.log(player.calcTotal())
 })
 
-//logic for after human player clicks stay
+//logic for after human player clicks stay//
 const gamePlay = () => {
     console.log(`${player.getPlayerName()} has decided to stay`)
 
@@ -114,7 +118,7 @@ const gamePlay = () => {
 
 
 if (computer.getTotal() <= 16) {
-    console.log("hit")
+  
    computer.hit()
    console.log(computer.getHand())
    console.log(computer.calcTotal())
@@ -144,6 +148,7 @@ else if (computer.getTotal() == player.getTotal()) {
 }
 }
 
+//button function calls
 const stay = document.body.querySelector("button.stay")
 stay.addEventListener('click', gamePlay)
 
