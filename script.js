@@ -116,12 +116,20 @@ console.log(player.calcTotal())
 const gamePlay = () => {
     console.log(`${player.getPlayerName()} has decided to stay`)
 
+    
+const compCardTwo =  document.body.querySelector("img.computer-card-two")
+
+compCardTwo.src=`./images/cards/${computer.getSecondCard()}.jpg`
+
     console.log(computer.calcTotal())
 
 
 if (computer.getTotal() <= 16) {
   
    computer.hit()
+   const compCards = document.body.querySelector(".computer-cards")
+//remove first 2 cards and map through the nodes to all cards
+
    console.log(computer.getHand())
    console.log(computer.calcTotal())
 gamePlay() //recalls the function until an outcome is decided
@@ -169,5 +177,5 @@ const compCardOne = document.body.querySelector(".computer-cards img")
 const compCardTwo =  document.body.querySelector("img.computer-card-two")
 
 compCardOne.src=`./images/cards/${computer.getFirstCard()}.jpg`
-compCardTwo.src=`./images/cards/${computer.getSecondCard()}.jpg`
+compCardTwo.src=`./images/cards/cards-backs/Red_back.jpg`
 
