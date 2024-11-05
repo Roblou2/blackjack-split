@@ -128,7 +128,7 @@ gamePlay() //recalls the function until an outcome is decided
 
 }
 
- else if (computer.getTotal() > 16) {
+ else if (computer.getTotal() > 16 && computer.getTotal() < 22) {
     console.log("The computer's hand is bigger than 16. It must stay")
 
     //Computer wins

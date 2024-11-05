@@ -1,5 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: #34ba77;
+    background-image: url("./images/blackjack-board-wide.png");
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position-x: center;
 }
 
 button.hit, button.stay {
@@ -11,6 +19,16 @@ button.hit, button.stay {
     border: solid;
     border-color: red;
     color: white;
+}
+
+button.hit {
+    position: absolute;
+    bottom: 2rem;
+}
+
+button.stay {
+    position: absolute;
+    bottom: 8rem;
 }
 
 .board {
@@ -25,15 +43,27 @@ button.hit, button.stay {
 
 .img-board {
     width: 1000px;
-    height: 500px;
+    height: auto;
     z-index: 5;
 }
 
-.player-cards, .computer-cards {
+.computer-cards {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     gap: 10px;
+    padding-left: 45rem;
+    padding-top: 8rem;
    
+}
+
+.player-cards {
+    
+        display: flex;
+        justify-content: start;
+        gap: 10px;
+        padding-left: 45rem;
+  padding-top: 6rem;
+    
 }
 
 .computer-cards img {
