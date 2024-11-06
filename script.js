@@ -127,9 +127,10 @@ compCardTwo.src=`./images/cards/${computer.getSecondCard()}.jpg`
 if (computer.getTotal() <= 16) {
   
    computer.hit()
-   const compCards = document.body.querySelector(".computer-cards")
-//remove first 2 cards and map through the nodes to all cards
 
+   //remove first 2 cards from comp hand
+const compCards = document.body.querySelector(".computer-cards")
+Array.from(compCards.children).forEach(child => compCards.removeChild(child));
    console.log(computer.getHand())
    console.log(computer.calcTotal())
 gamePlay() //recalls the function until an outcome is decided
