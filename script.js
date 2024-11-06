@@ -1,3 +1,4 @@
+
 //define suits and cards
 let suits = ["clubs", "spades", "hearts", "diamonds"];
 let unsuitedCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace"];
@@ -30,6 +31,11 @@ const makeHand = () => {
         cardTwo: drawCard(),
     };
 };
+
+//tracking for number of displayed comp cards on board
+let displayedCompCards = 2
+//tracking for number of displayed player cards on board
+let displayedPlayerCards = 2
 
 // createPlayer factory function
 const createPlayer = (name, hand) => {
@@ -109,6 +115,23 @@ console.log(`the computer has a ${computer.getFirstCard()}`)
 const hit = document.body.querySelector("button.hit")
 hit.addEventListener('click', () => {
     player.hit()
+//add players card to board
+
+const playerCards = document.body.querySelector(".player-cards")
+
+//loop through player hand and set i = displayedplayercards
+for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
+   
+    const newCard = document.createElement("img")
+    newCard.src = `./images/cards/${player.getHand()[i]}.jpg`
+  
+        playerCards.appendChild(newCard)
+    
+}
+
+  // Update the count of displayed player cards
+  displayedPlayerCards = player.getHand().length;
+
 console.log(player.calcTotal())
 })
 
@@ -119,7 +142,9 @@ const gamePlay = () => {
     
 const compCardTwo =  document.body.querySelector("img.computer-card-two")
 
-compCardTwo.src=`./images/cards/${computer.getSecondCard()}.jpg`
+setTimeout(() => {
+    compCardTwo.src = `./images/cards/${computer.getSecondCard()}.jpg`;
+
 
     console.log(computer.calcTotal())
 
@@ -128,9 +153,23 @@ if (computer.getTotal() <= 16) {
   
    computer.hit()
 
-   //remove first 2 cards from comp hand
+   //get computer cards class
 const compCards = document.body.querySelector(".computer-cards")
-Array.from(compCards.children).forEach(child => compCards.removeChild(child));
+
+//loop through comp's hand from i=displayedCompCards and make src of each one equal to card
+
+for (let i = displayedCompCards; i < computer.getHand().length; i++) {
+   
+    const newCard = document.createElement("img")
+    newCard.src = `./images/cards/${computer.getHand()[i]}.jpg`
+  
+        compCards.appendChild(newCard)
+    
+}
+
+  // Update the count of displayed comp cards
+  displayedCompCards = computer.getHand().length;
+
    console.log(computer.getHand())
    console.log(computer.calcTotal())
 gamePlay() //recalls the function until an outcome is decided
@@ -156,7 +195,7 @@ console.log(`${player.getPlayerName()} wins!`)
 else if (computer.getTotal() == player.getTotal()) {
     console.log("Draw!")
     }
-}
+}}, 2500);
 }
 
 //button function calls
