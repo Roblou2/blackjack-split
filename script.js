@@ -46,15 +46,16 @@ const createPlayer = (name, hand) => {
 
     const getFirstCard = () => cards[0]
     const getSecondCard = () => cards[1]
-
+const aces = [] //for matching against calcTotal decision
     const getPlayerName = () => name;
 
     const getHand = () => cards
 
     const hit = () => {
-        console.log(`${name} hits`)
+       
         let newCard = drawCard();
         cards.push(newCard);
+    calcTotal()
     };
 
     const calcTotal = () => {
@@ -64,20 +65,32 @@ const createPlayer = (name, hand) => {
             let card = cards[i].split(" ")[0];
 
             if (!isNaN(card)) {
-                total += parseInt(card);
-            } else {
+                const hasAce = cards.some(card => /ace of \w+/.test(card));
+                if (hasAce) {
+                    
+                }
+
+
+            total += parseInt(card);
+       
+        }
+             else {
                 switch (card) {
                     case "jack":
                     case "queen":
                     case "king":
+                        
                         total += 10;
+                    
                         break;
                     case "ace":
                         if (total >= 11) {
                             total += 1;
+                            console.log(total)
                         } 
                         else if (total < 11) {
                             total += 11;
+                            console.log(total)
                         }
                         break;
                     default:
@@ -87,32 +100,74 @@ const createPlayer = (name, hand) => {
         }
 
         if (total > 21) {
-            return `${name}'s total is over 21. ${name} loses`;
+            if (getPlayerName() == `Computer`) {
+            const score = document.body.querySelector(".score")
+            score.setAttribute("style", "display: block;")
+            const result = document.body.querySelector(".result")
+            result.setAttribute("style", "display: block;")
+            result.innerHTML="You win!"
+            const stay = document.body.querySelector("button.stay")
+            stay.disabled = true
+            const hit = document.body.querySelector("button.hit")
+            hit.disabled = true
+            return console.log(`${name}'s total is over 21. ${name} loses`)
         } 
+        else if (getPlayerName() != `Computer`) {
+            const score = document.body.querySelector(".score")
+            score.setAttribute("style", "display: block;")
+            const result = document.body.querySelector(".result")
+            result.setAttribute("style", "display: block;")
+            result.innerHTML="You lose! :("
+            const stay = document.body.querySelector("button.stay")
+            stay.disabled = true
+            const hit = document.body.querySelector("button.hit")
+            hit.disabled = true
+            return console.log(`${name}'s total is over 21. ${name} loses`)
+        }
+    }
         else if (total < 21) {
             return `${name}'s total is ${total}.`;
         } 
         else if (total === 21) {
-            return `${name} wins!`;
+            if (getPlayerName() != `Computer`) {
+            const score = document.body.querySelector(".score")
+            score.setAttribute("style", "display: block;")
+            const result = document.body.querySelector(".result")
+            result.setAttribute("style", "display: block;")
+            result.innerHTML="Winner! You got Blackjack :D"
+            const stay = document.body.querySelector("button.stay")
+            stay.disabled = true
+            const hit = document.body.querySelector("button.hit")
+            hit.disabled = true
+            return console.log(`${name} wins!`)
         }
+        else if (getPlayerName() == `Computer`) {
+            const score = document.body.querySelector(".score")
+            score.setAttribute("style", "display: block;")
+            const result = document.body.querySelector(".result")
+            result.setAttribute("style", "display: block;")
+            result.innerHTML="Computer wins :("
+            const stay = document.body.querySelector("button.stay")
+            stay.disabled = true
+            const hit = document.body.querySelector("button.hit")
+            hit.disabled = true
+            return console.log(`${name} wins!`)
+        }
+    }
     };
 
     return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard, getSecondCard };
 };
 
-//make human and computer players//
+//make human and computer players and get player's total from hand//
 const player = createPlayer("Rob", makeHand()); 
+player.calcTotal()
 
 const computer = createPlayer("Computer", makeHand());
 
-//get human total//
-console.log(player.calcTotal())
-
-//show comp's first card (as dealer)//
-console.log(`the computer has a ${computer.getFirstCard()}`)
-
 
 const hit = document.body.querySelector("button.hit")
+
 hit.addEventListener('click', () => {
     player.hit()
 //add players card to board
@@ -132,11 +187,20 @@ for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
   // Update the count of displayed player cards
   displayedPlayerCards = player.getHand().length;
 
-console.log(player.calcTotal())
+
 })
 
 //logic for after human player clicks stay//
 const gamePlay = () => {
+
+
+    //disable buttons
+    const stay = document.body.querySelector("button.stay")
+    stay.disabled = true 
+
+    const hit = document.body.querySelector("button.hit")
+    hit.disabled = true
+
     console.log(`${player.getPlayerName()} has decided to stay`)
 
     
@@ -145,8 +209,8 @@ const compCardTwo =  document.body.querySelector("img.computer-card-two")
 setTimeout(() => {
     compCardTwo.src = `./images/cards/${computer.getSecondCard()}.jpg`;
 
-
-    console.log(computer.calcTotal())
+//get computer's total from its hand
+   computer.calcTotal()
 
 
 if (computer.getTotal() <= 16) {
@@ -170,30 +234,57 @@ for (let i = displayedCompCards; i < computer.getHand().length; i++) {
   // Update the count of displayed comp cards
   displayedCompCards = computer.getHand().length;
 
-   console.log(computer.getHand())
-   console.log(computer.calcTotal())
-gamePlay() //recalls the function until an outcome is decided
+
+computer.calcTotal()
+gamePlay() //recalls the function got computer to hit again
 
 }
 
  else if (computer.getTotal() > 16 && computer.getTotal() < 22) {
-    console.log("The computer's hand is bigger than 16. It must stay")
+
 
     //Computer wins
     if (computer.getTotal() > player.getTotal()) {
-        console.log(`${player.getPlayerName()} loses`)
+        const score = document.body.querySelector(".score")
+        score.setAttribute("style", "display: block;")
+        const result = document.body.querySelector(".result")
+        result.setAttribute("style", "display: block;")
+        result.innerHTML="You lose! :("
+        const stay = document.body.querySelector("button.stay")
+        stay.disabled = true
+        const hit = document.body.querySelector("button.hit")
+        hit.disabled = true
+    
     }
 
 
     //Human player wins
     else if (computer.getTotal() < player.getTotal()) {
-console.log(`${player.getPlayerName()} wins!`)
+        const score = document.body.querySelector(".score")
+            score.setAttribute("style", "display: block;")
+            const result = document.body.querySelector(".result")
+            result.setAttribute("style", "display: block;")
+            result.innerHTML="You win! Your hand was bigger :)"
+            const stay = document.body.querySelector("button.stay")
+            stay.disabled = true
+            const hit = document.body.querySelector("button.hit")
+            hit.disabled = true
+
 }
 
 
 //Draw scenario
 else if (computer.getTotal() == player.getTotal()) {
-    console.log("Draw!")
+    const score = document.body.querySelector(".score")
+    score.setAttribute("style", "display: block;")
+    const result = document.body.querySelector(".result")
+    result.setAttribute("style", "display: block;")
+    result.innerHTML="Draw!"
+    const stay = document.body.querySelector("button.stay")
+    stay.disabled = true
+    const hit = document.body.querySelector("button.hit")
+    hit.disabled = true
+   
     }
 }}, 2500);
 }
