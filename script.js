@@ -40,13 +40,15 @@ let displayedPlayerCards = 2
 // createPlayer factory function
 const createPlayer = (name, hand) => {
     const cards = [hand.cardOne, hand.cardTwo]; //initialize start of game with 2 cards for the hand
-    let total = 0;
+    let total = 0
+let acesCount = 0
+
 
     const getTotal = () => total
 
     const getFirstCard = () => cards[0]
     const getSecondCard = () => cards[1]
-const aces = [] //for matching against calcTotal decision
+
     const getPlayerName = () => name;
 
     const getHand = () => cards
@@ -54,6 +56,12 @@ const aces = [] //for matching against calcTotal decision
     const hit = () => {
        
         let newCard = drawCard();
+        const isAce = cards.some(card => /ace of \w+/.test(card))
+
+        if (isAce) {
+            console.log(isAce)
+acesCount++
+        }
         cards.push(newCard);
     calcTotal()
     };
@@ -65,11 +73,7 @@ const aces = [] //for matching against calcTotal decision
             let card = cards[i].split(" ")[0];
 
             if (!isNaN(card)) {
-                const hasAce = cards.some(card => /ace of \w+/.test(card));
-                if (hasAce) {
-                    
-                }
-
+           
 
             total += parseInt(card);
        
@@ -86,18 +90,28 @@ const aces = [] //for matching against calcTotal decision
                     case "ace":
                         if (total >= 11) {
                             total += 1;
-                            console.log(total)
+                        
                         } 
                         else if (total < 11) {
                             total += 11;
-                            console.log(total)
+                        
                         }
+                 
                         break;
                     default:
                         console.log("Invalid card:", cards[i]);
                 }
             }
         }
+
+           // Adjust Aces if total > 21 before deciding on outcome
+    while (total > 21 && acesCount > 0) {
+        // Each Ace switches from 11 to 1, reducing total by 10
+        total -= 10
+        console.log(total)
+        acesCount-- 
+        console.log(`there are ${acesCount} aces`)// Decrement the count of Aces counted as 11
+    }
 
         if (total > 21) {
             if (getPlayerName() == `Computer`) {
@@ -126,7 +140,8 @@ const aces = [] //for matching against calcTotal decision
         }
     }
         else if (total < 21) {
-            return `${name}'s total is ${total}.`;
+            `${name}'s total is ${total}.`;
+
         } 
         else if (total === 21) {
             if (getPlayerName() != `Computer`) {
