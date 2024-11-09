@@ -191,27 +191,7 @@ for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
 
 })
 
-hit.addEventListener('touchstart', () => {
-    player.hit()
-//add players card to board
 
-const playerCards = document.body.querySelector(".player-cards")
-
-//loop through player hand and set i = displayedplayercards
-for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
-   
-    const newCard = document.createElement("img")
-    newCard.src = `./images/cards/${player.getHand()[i]}.jpg`
-  
-        playerCards.appendChild(newCard)
-    
-}
-
-  // Update the count of displayed player cards
-  displayedPlayerCards = player.getHand().length;
-
-
-})
 
 //logic for after human player clicks stay//
 const gamePlay = () => {
@@ -315,14 +295,14 @@ else if (computer.getTotal() == player.getTotal()) {
 //button function calls
 const stay = document.body.querySelector("button.stay")
 stay.addEventListener('click', gamePlay)
-stay.addEventListener('touchstart', gamePlay)
+
 
 const restart = () => {
     return location.reload()
 }
 const newGame = document.body.querySelector("button.new")
 newGame.addEventListener('click', restart)
-newGame.addEventListener('touchstart', restart)
+
 
 //player img elements
 const playerCardOne = document.body.querySelector(".player-cards img")
