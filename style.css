@@ -111,6 +111,7 @@ button.stay {
         background-image: url("./images/blackjack-board-mobs.png");
         background-repeat: no-repeat;
         background-size: 100%;
+
     
     }
 
@@ -118,25 +119,59 @@ button.stay {
         display: flex;
         justify-content: start;
         gap: 10px;
-        padding-left: 10rem;
+        padding-left: 2rem;
         padding-top: 8rem;
        
        
     }
 
     .computer-cards img {
-        width: 10rem; 
+        width: 3rem; 
         height: auto;
-        padding-top: 0;
+        padding-top: 14rem;
        
     }
     
 
     .player-cards {
-    
         display: flex;
+        justify-content: start;
         gap: 10px;
+        padding-left: 2rem;
+  padding-top: 14rem;
    
+}
+
+.player-cards img {
+    width: 3rem;
+    height: auto;
+
    
+}
+
+
+button.hit, button.stay {
+    background-color: red;
+    width:100px;
+    height: 50px;
+    font-size: 28px;
+    border-radius: 5%;
+    border: solid;
+    border-color: red;
+    color: white;
+}
+
+button.hit {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    background-color: black;
+    border-color: black;
+}
+
+button.stay {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
 }
 }
