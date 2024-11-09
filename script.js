@@ -40,21 +40,12 @@ let displayedPlayerCards = 2
 // createPlayer factory function
 const createPlayer = (name, hand) => {
     let total = 0
-    let acesCount = 0
-let acesConverted = 0
+
+
 
     const cards = [hand.cardOne, hand.cardTwo] //initialize start of game with 2 cards for the hand
-const acesInHand = () => {
-    const hasAce = cards.some(card => /ace of \w+/.test(card));
 
-    if (hasAce) {
-        console.log("Ace in hand")
-        acesCount++;
-    }
-}
-acesInHand()
   
-
 
     const getTotal = () => total
 
@@ -68,16 +59,6 @@ acesInHand()
     const hit = () => {
         let newCard = drawCard();
     
-
-        const isAce = () => {
-         
-            if (newCard.split(" ")[0] === "ace") {
-                console.log("Ace found:", newCard);
-                acesCount++;
-            }
-        };
-    
-        isAce()
         cards.push(newCard)
         calcTotal()
     }
@@ -86,43 +67,13 @@ acesInHand()
         total = 0
        
                    // adjust Aces if total > 21 before deciding on outcome
- const adjustForAces = (cardToAdd) => {  
-    
-    while (total > 21 && acesCount > 0) {
-        if (((total + cardToAdd) > 21) && acesConverted > 0) {
-            console.log(`bug fix triggered`)
-            const score = document.body.querySelector(".score")
-            score.setAttribute("style", "display: block;")
-            const result = document.body.querySelector(".result")
-            result.setAttribute("style", "display: block;")
-            result.innerHTML="You lose! :("
-            const stay = document.body.querySelector("button.stay")
-            stay.disabled = true
-            const hit = document.body.querySelector("button.hit")
-            hit.disabled = true
-            return console.log(`${name}'s total is over 21. ${name} loses`)
-        }
-        console.log("running while loop")
-        // Each Ace switches from 11 to 1, reducing total by 10
-        total -= 10
-        console.log(total)
-        acesCount-- 
-        console.log(`there are ${acesCount} aces to account for`)// Decrement the count of Aces counted as 11
-    }
-}
+ 
 
         for (let i = 0; i < cards.length; i++) {
             let card = cards[i].split(" ")[0];
 
             if (!isNaN(card)) {
-           
-
             total += parseInt(card);
-       
-            if (total > 21) {
-                console.log("total is over 21. Adjusting any aces...")
-            adjustForAces(card)
-        } 
         }
              else {
                 switch (card) {
@@ -131,35 +82,21 @@ acesInHand()
                     case "king":
                         
                         total += 10;
-                       
-                        if (total > 21) {
-                            console.log("total is over 21")
-                        adjustForAces(card)
-                    } 
-                        break;
+                    
+                        break
                     case "ace":
-                        if (total >= 11) {
-                            console.log("added 1 for ace")
-                            total += 1
-                      acesConverted += 1
-   adjustForAces(card)
-                    }
-                        else if (total < 11) {
-                            console.log("added 11 for ace")
-                            total += 11;
-                            adjustForAces(card)
-                        }
-                 
-                        if (total > 21) {
-                            console.log("total is over 21")
-                        adjustForAces(card)
+                       total += 1
+                       break;
                     } 
-                        break;
+                       
                    
                 }
             }
-        }
-    
+            const hasAce = cards.some(card => /ace of \w+/.test(card))
+    if (total < 12 && hasAce === true) {
+       console.log(`add 10`)
+        total += 10
+    }
 
         if (total > 21) {
             if (getPlayerName() == `Computer`) {
