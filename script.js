@@ -39,9 +39,21 @@ let displayedPlayerCards = 2
 
 // createPlayer factory function
 const createPlayer = (name, hand) => {
-    const cards = [hand.cardOne, hand.cardTwo]; //initialize start of game with 2 cards for the hand
     let total = 0
-let acesCount = 0
+    let acesCount = 0
+let acesConverted = 0
+
+    const cards = [hand.cardOne, hand.cardTwo] //initialize start of game with 2 cards for the hand
+const acesInHand = () => {
+    const hasAce = cards.some(card => /ace of \w+/.test(card));
+
+    if (hasAce) {
+        console.log("Ace in hand")
+        acesCount++;
+    }
+}
+acesInHand()
+  
 
 
     const getTotal = () => total
@@ -54,20 +66,50 @@ let acesCount = 0
     const getHand = () => cards
 
     const hit = () => {
-       
         let newCard = drawCard();
-        const isAce = cards.some(card => /ace of \w+/.test(card))
+    
 
-        if (isAce) {
-            console.log(isAce)
-acesCount++
-        }
-        cards.push(newCard);
-    calcTotal()
-    };
+        const isAce = () => {
+         
+            if (newCard.split(" ")[0] === "ace") {
+                console.log("Ace found:", newCard);
+                acesCount++;
+            }
+        };
+    
+        isAce()
+        cards.push(newCard)
+        calcTotal()
+    }
 
     const calcTotal = () => {
-        total = 0; // Reset total
+        total = 0
+       
+                   // adjust Aces if total > 21 before deciding on outcome
+ const adjustForAces = (cardToAdd) => {  
+    
+    while (total > 21 && acesCount > 0) {
+        if (((total + cardToAdd) > 21) && acesConverted > 0) {
+            console.log(`bug fix triggered`)
+            const score = document.body.querySelector(".score")
+            score.setAttribute("style", "display: block;")
+            const result = document.body.querySelector(".result")
+            result.setAttribute("style", "display: block;")
+            result.innerHTML="You lose! :("
+            const stay = document.body.querySelector("button.stay")
+            stay.disabled = true
+            const hit = document.body.querySelector("button.hit")
+            hit.disabled = true
+            return console.log(`${name}'s total is over 21. ${name} loses`)
+        }
+        console.log("running while loop")
+        // Each Ace switches from 11 to 1, reducing total by 10
+        total -= 10
+        console.log(total)
+        acesCount-- 
+        console.log(`there are ${acesCount} aces to account for`)// Decrement the count of Aces counted as 11
+    }
+}
 
         for (let i = 0; i < cards.length; i++) {
             let card = cards[i].split(" ")[0];
@@ -77,6 +119,10 @@ acesCount++
 
             total += parseInt(card);
        
+            if (total > 21) {
+                console.log("total is over 21. Adjusting any aces...")
+            adjustForAces(card)
+        } 
         }
              else {
                 switch (card) {
@@ -85,33 +131,35 @@ acesCount++
                     case "king":
                         
                         total += 10;
-                    
+                       
+                        if (total > 21) {
+                            console.log("total is over 21")
+                        adjustForAces(card)
+                    } 
                         break;
                     case "ace":
                         if (total >= 11) {
-                            total += 1;
-                        
-                        } 
+                            console.log("added 1 for ace")
+                            total += 1
+                      acesConverted += 1
+   adjustForAces(card)
+                    }
                         else if (total < 11) {
+                            console.log("added 11 for ace")
                             total += 11;
-                        
+                            adjustForAces(card)
                         }
                  
+                        if (total > 21) {
+                            console.log("total is over 21")
+                        adjustForAces(card)
+                    } 
                         break;
-                    default:
-                        console.log("Invalid card:", cards[i]);
+                   
                 }
             }
         }
-
-           // Adjust Aces if total > 21 before deciding on outcome
-    while (total > 21 && acesCount > 0) {
-        // Each Ace switches from 11 to 1, reducing total by 10
-        total -= 10
-        console.log(total)
-        acesCount-- 
-        console.log(`there are ${acesCount} aces`)// Decrement the count of Aces counted as 11
-    }
+    
 
         if (total > 21) {
             if (getPlayerName() == `Computer`) {
@@ -168,11 +216,12 @@ acesCount++
             hit.disabled = true
             return console.log(`${name} wins!`)
         }
-    }
+    }}
+    return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard, getSecondCard };
     };
 
-    return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard, getSecondCard };
-};
+ 
+
 
 //make human and computer players and get player's total from hand//
 const player = createPlayer("Rob", makeHand()); 
