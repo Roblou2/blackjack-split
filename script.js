@@ -104,7 +104,7 @@ const createPlayer = (name, hand) => {
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
-            result.innerHTML="You win!"
+            result.innerHTML="YOU WIN!"
             const stay = document.body.querySelector("button.stay")
             stay.disabled = true
             const hit = document.body.querySelector("button.hit")
@@ -116,7 +116,7 @@ const createPlayer = (name, hand) => {
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
-            result.innerHTML="You lose! :("
+            result.innerHTML="YOU LOSE! :("
             const stay = document.body.querySelector("button.stay")
             stay.disabled = true
             const hit = document.body.querySelector("button.hit")
@@ -134,7 +134,7 @@ const createPlayer = (name, hand) => {
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
-            result.innerHTML="Winner! You got Blackjack :D"
+            result.innerHTML="WINNER! YOU GOT BLACKJACK! :D"
             const stay = document.body.querySelector("button.stay")
             stay.disabled = true
             const hit = document.body.querySelector("button.hit")
@@ -146,7 +146,7 @@ const createPlayer = (name, hand) => {
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
-            result.innerHTML="Computer wins :("
+            result.innerHTML="COMPUTER WINS! :("
             const stay = document.body.querySelector("button.stay")
             stay.disabled = true
             const hit = document.body.querySelector("button.hit")
@@ -250,7 +250,7 @@ gamePlay() //recalls the function got computer to hit again
         score.setAttribute("style", "display: block;")
         const result = document.body.querySelector(".result")
         result.setAttribute("style", "display: block;")
-        result.innerHTML="You lose! :("
+        result.innerHTML="YOU LOSE! :("
         const stay = document.body.querySelector("button.stay")
         stay.disabled = true
         const hit = document.body.querySelector("button.hit")
@@ -265,7 +265,7 @@ gamePlay() //recalls the function got computer to hit again
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
-            result.innerHTML="You win! Your hand was bigger :)"
+            result.innerHTML="YOU WIN! Your hand was bigger. :)"
             const stay = document.body.querySelector("button.stay")
             stay.disabled = true
             const hit = document.body.querySelector("button.hit")
@@ -280,7 +280,7 @@ else if (computer.getTotal() == player.getTotal()) {
     score.setAttribute("style", "display: block;")
     const result = document.body.querySelector(".result")
     result.setAttribute("style", "display: block;")
-    result.innerHTML="Draw!"
+    result.innerHTML="DRAW!"
     const stay = document.body.querySelector("button.stay")
     stay.disabled = true
     const hit = document.body.querySelector("button.hit")
@@ -293,6 +293,12 @@ else if (computer.getTotal() == player.getTotal()) {
 //button function calls
 const stay = document.body.querySelector("button.stay")
 stay.addEventListener('click', gamePlay)
+
+const restart = () => {
+    return location.reload()
+}
+const newGame = document.body.querySelector("button.new")
+newGame.addEventListener('click', restart)
 
 //player img elements
 const playerCardOne = document.body.querySelector(".player-cards img")

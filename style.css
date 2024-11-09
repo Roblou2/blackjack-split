@@ -2,6 +2,7 @@
 
 * {
     box-sizing: border-box;
+    font-family: "Felipa", serif;
 }
 
 body {
@@ -35,7 +36,7 @@ h2.result {
    z-index: 180;
 }
 
-button.hit, button.stay {
+button.hit, button.stay, button.new {
     background-color: red;
     width:200px;
     height: 50px;
@@ -56,6 +57,13 @@ button.hit {
 button.stay {
     position: absolute;
     bottom: 8rem;
+}
+
+button.new {
+    position: inherit;
+    top: 65%;
+    left: 45%;
+   opacity: 1;
 }
 
 .board {
@@ -187,4 +195,12 @@ h2.result {
    left: 25%;
 
 }
+
+button.new {
+    position: inherit;
+    top: 75%;
+    left: 35%;
+   opacity: 1;
+}
+
 }
