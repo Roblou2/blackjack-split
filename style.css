@@ -49,6 +49,8 @@ button.hit, button.stay {
 button.hit {
     position: absolute;
     bottom: 2rem;
+    background-color: black;
+    border-color: black;
 }
 
 button.stay {
@@ -173,5 +175,16 @@ button.stay {
     position: absolute;
     bottom: 2rem;
     right: 2rem;
+}
+
+
+
+h2.result {
+    font-size: 40px;
+   display: none;
+   position: absolute;
+   top: 50%;
+   left: 25%;
+
 }
 }
