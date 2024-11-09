@@ -322,7 +322,7 @@ const restart = () => {
 }
 const newGame = document.body.querySelector("button.new")
 newGame.addEventListener('click', restart)
-newGame.addEventListener('touch', restart)
+newGame.addEventListener('touchstart', restart)
 
 //player img elements
 const playerCardOne = document.body.querySelector(".player-cards img")
