@@ -26,6 +26,14 @@ display: none;
 margin: auto;
 }
 
+button.betting {
+    display: none;
+}
+
+.betting.computer-cards, .betting.player-cards {
+    display: none;
+}
+
 h2.result {
     font-size: 52px;
    display: none;
@@ -59,12 +67,62 @@ button.stay {
     bottom: 8rem;
 }
 
+.pot {
+    position: absolute;
+    bottom: 14rem;
+}
+
+.betting-interface {
+    position: absolute;
+    top: 5rem;
+    left: 2rem;
+    height: auto;
+}
+
+button.double-down {
+position: absolute;
+display: none;
+font-size: 25px;
+background-color: black;
+color: white;
+top: 10rem;
+left: 2rem;
+height: auto;
+
+}
+
+.bet {
+    position: absolute;
+    top: 18rem;
+    left: 2rem;
+    font-size: 35px;
+    color: white;
+}
+
+.chips {
+    display: flex;
+    flex-direction: row;
+   gap: 5px;
+}
+
+.chips button {
+    font-size: 25px;
+    background-color: black;
+    color: white;
+}
+
+.pot h2 {
+    font-size: 50px;
+    color: white;
+}
+
 button.new {
     position: inherit;
     top: 65%;
     left: 45%;
    opacity: 1;
 }
+
 
 .board {
  display: flex;
@@ -98,7 +156,23 @@ button.new {
         gap: 10px;
         padding-left: 45rem;
   padding-top: 6rem;
-    
+    align-items: center;
+}
+
+.player-total {
+    color: white;
+    font-size: 35px;
+    position: absolute;
+    left: 35rem;
+    bottom: 4rem;
+}
+
+.comp-total {
+    color: white;
+    font-size: 35px;
+    position: absolute;
+    left: 35rem;
+    bottom: 40rem;
 }
 
 .computer-cards img {
@@ -143,11 +217,32 @@ padding-left: 100px;
 margin-left: 30%;
 }
 
+.total {
+    color: white;
+    font-size: 35px;
+    position: absolute;
+    left: 25rem;
+    bottom: 12rem;
+}
+
 .player-cards img {
     width: 3rem;
     height: auto;
 
-   
+}
+
+.betting-interface {
+position: absolute;
+    bottom: 25rem;
+    right: 2rem;
+  top: auto;
+}
+
+button.double-down {
+bottom: 20rem;
+width: 150px;
+top: auto;
+right: 2rem;
 }
 
 }
@@ -189,6 +284,15 @@ margin-left: 30%;
    
 }
 
+.total {
+    color: white;
+    font-size: 35px;
+    position: absolute;
+    left: 3rem;
+    bottom: 12rem;
+    font-size: 20px;
+}
+
 .player-cards img {
     width: 3rem;
     height: auto;
@@ -222,6 +326,38 @@ button.stay {
     right: 2rem;
 }
 
+.pot {
+    position: absolute;
+    bottom: 14rem;
+    left: 4rem;
+}
+
+.betting-interface {
+position: absolute;
+    bottom: 14rem;
+    right: 2rem;
+    top: auto;
+    left: auto;
+}
+
+.bet {
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom: 10rem;
+    right: 2rem;
+    font-size: 35px;
+    color: white;
+}
+
+.chips button {
+    font-size: 15px;
+}
+
+
+.pot h2 {
+    font-size: 30px;
+}
 
 
 h2.result {

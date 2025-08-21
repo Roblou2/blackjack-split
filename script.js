@@ -1,4 +1,112 @@
 
+
+let gameOver = false
+//*****DOM ELEMENTS:******
+//hit button
+const hit = document.body.querySelector("button.hit")
+//stay button
+const stay = document.body.querySelector("button.stay")
+//new game button
+const newGame = document.body.querySelector("button.new")
+//double down
+const doubleDown = document.body.querySelector("button.double-down")
+//money pot 
+let pot = document.body.querySelector('.pot h2')
+
+
+//define amount bet by player
+let wager = 0;
+let bet = document.body.querySelector('.bet')
+bet.textContent=`Stake: $${wager}`
+
+//player total
+const playerTotal = document.body.querySelector('.player-total')
+//comp total
+const compTotal = document.body.querySelector('.comp-total')
+
+//chips buttons
+const chips = document.body.querySelectorAll('.chip')
+
+
+//elements with betting class 
+const playButtons = document.querySelectorAll('button.betting')
+const playerCardsDisplay = document.querySelector('.betting.player-cards')
+const compCardsDisplay = document.querySelector('.betting.computer-cards')
+
+//Updating money pot with local storage
+const moneyManager = {
+    key: 'moneyPot', 
+    wager: 'amount',
+  
+    // Get the current pot value (initialize if not present)
+    get() {
+      let money = localStorage.getItem(this.key);
+      if (money === null) {
+        money = 2000; // starting pot
+        localStorage.setItem(this.key, money) //(stored as string here)
+      }
+      return parseInt(money, 10); //return string as a value
+    },
+  
+    // Subtract money bet and save to local storage
+    bet(amount) {
+      let money = this.get() - amount; //(pot value - amount bet)
+      localStorage.setItem(this.key, money) //update to new pot value in local storage
+      this.display(money) // set new pot value on UI
+      this.wager = amount //set the amount bet
+      console.log(`Amount bet: $${this.wager}`)
+    },
+
+    //dobule down 
+    doubleDown() {
+let money = this.get() - this.wager
+localStorage.setItem(this.key, money)
+this.wager = this.wager*2
+this.display(money)
+    },
+
+//update pot in local storage with winnings for a standard win (pot + (wager*2))
+    winNormal() {
+       
+        let winnings = this.get() + (wager *2)
+        console.log(`Amount won: $${winnings}`)
+localStorage.setItem(this.key, winnings)
+
+    },
+
+ blackJack() {
+let winnings = this.get() + (this.wager + (this.wager*1.5))
+console.log(`Amount won: $${winnings}`)
+localStorage.setItem(this.key, winnings)
+ },
+
+    draw() {
+        let returnAmount = this.get() + this.wager
+        localStorage.setItem(this.key, returnAmount)
+
+    },
+  
+    // Display pot
+    display(money = null) {
+let value;
+if (money !== null && money !== undefined) {
+  value = money;     // value is set to money var passed 
+} else {
+  value = this.get(); 
+}
+  
+      if (pot) {
+        pot.textContent = `Pot: $${value}` //update UI here
+      }
+    },
+  
+
+    reset() {
+      localStorage.setItem(this.key, 2000)
+      this.display(2000)
+    }
+  };
+
 //define suits and cards
 let suits = ["clubs", "spades", "hearts", "diamonds"];
 let unsuitedCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace"];
@@ -14,7 +122,7 @@ const createDeck = () => {
     return deck;
 };
 
-let deck = createDeck(); // Initialize the deck
+let deck = createDeck(); // Make deck fo cards
 
 // Function to draw a random card from the deck
 const drawCard = () => {
@@ -23,6 +131,7 @@ const drawCard = () => {
     deck.splice(randomIndex, 1); // Remove the drawn card from the deck
     return card; //return the card which goes into hand 
 };
+
 
 //define a function to make a hand for the start of the game
 const makeHand = () => {
@@ -49,6 +158,7 @@ const createPlayer = (name, hand) => {
 
     const getTotal = () => total
 
+
     const getFirstCard = () => cards[0]
     const getSecondCard = () => cards[1]
 
@@ -61,6 +171,8 @@ const createPlayer = (name, hand) => {
     
         cards.push(newCard)
         calcTotal()
+        playerTotal.textContent=`Total: ${player.getTotal()}`
+   
     }
 
     const calcTotal = () => {
@@ -98,16 +210,17 @@ const createPlayer = (name, hand) => {
         total += 10
     }
 
-        if (total > 21) {
+        if (total > 21  && !gameOver) {
+        gameOver = true
             if (getPlayerName() == `Computer`) {
+
+                moneyManager.winNormal()
             const score = document.body.querySelector(".score")
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
             result.innerHTML="YOU WIN!"
-            const stay = document.body.querySelector("button.stay")
             stay.disabled = true
-            const hit = document.body.querySelector("button.hit")
             hit.disabled = true
             return console.log(`${name}'s total is over 21. ${name} loses`)
         } 
@@ -117,9 +230,7 @@ const createPlayer = (name, hand) => {
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
             result.innerHTML="YOU LOSE! :("
-            const stay = document.body.querySelector("button.stay")
             stay.disabled = true
-            const hit = document.body.querySelector("button.hit")
             hit.disabled = true
             return console.log(`${name}'s total is over 21. ${name} loses`)
         }
@@ -129,27 +240,27 @@ const createPlayer = (name, hand) => {
 
         } 
         else if (total === 21) {
+            gameOver = true
             if (getPlayerName() != `Computer`) {
+                moneyManager.blackJack()
+                stay.disabled = true
+                hit.disabled = true
+setTimeout(() => {
             const score = document.body.querySelector(".score")
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
             result.innerHTML="WINNER! YOU GOT BLACKJACK! :D"
-            const stay = document.body.querySelector("button.stay")
-            stay.disabled = true
-            const hit = document.body.querySelector("button.hit")
-            hit.disabled = true
             return console.log(`${name} wins!`)
-        }
+        }, 2500)
+    }
         else if (getPlayerName() == `Computer`) {
             const score = document.body.querySelector(".score")
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
             result.innerHTML="COMPUTER WINS! :("
-            const stay = document.body.querySelector("button.stay")
             stay.disabled = true
-            const hit = document.body.querySelector("button.hit")
             hit.disabled = true
             return console.log(`${name} wins!`)
         }
@@ -167,7 +278,6 @@ player.calcTotal()
 const computer = createPlayer("Computer", makeHand());
 
 
-const hit = document.body.querySelector("button.hit")
 
 hit.addEventListener('click', () => {
     player.hit()
@@ -179,6 +289,7 @@ const playerCards = document.body.querySelector(".player-cards")
 for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
    
     const newCard = document.createElement("img")
+    
     newCard.src = `./images/cards/${player.getHand()[i]}.jpg`
   
         playerCards.appendChild(newCard)
@@ -195,7 +306,7 @@ for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
 
 //logic for after human player clicks stay//
 const gamePlay = () => {
-
+if (gameOver) return
 
     //disable buttons
     const stay = document.body.querySelector("button.stay")
@@ -212,9 +323,9 @@ const compCardTwo =  document.body.querySelector("img.computer-card-two")
 setTimeout(() => {
     compCardTwo.src = `./images/cards/${computer.getSecondCard()}.jpg`;
 
-//get computer's total from its hand
+//get computer's total from its hand and update comp total score on board
    computer.calcTotal()
-
+     compTotal.textContent=`Total: ${computer.getTotal()}`
 
 if (computer.getTotal() <= 16) {
   
@@ -239,7 +350,9 @@ for (let i = displayedCompCards; i < computer.getHand().length; i++) {
 
 
 computer.calcTotal()
-gamePlay() //recalls the function got computer to hit again
+//update comp score dispaly on board
+     compTotal.textContent=`Total: ${computer.getTotal()}`
+gamePlay() //recalls the function for computer to hit again
 
 }
 
@@ -253,9 +366,7 @@ gamePlay() //recalls the function got computer to hit again
         const result = document.body.querySelector(".result")
         result.setAttribute("style", "display: block;")
         result.innerHTML="YOU LOSE! :("
-        const stay = document.body.querySelector("button.stay")
         stay.disabled = true
-        const hit = document.body.querySelector("button.hit")
         hit.disabled = true
     
     }
@@ -263,29 +374,28 @@ gamePlay() //recalls the function got computer to hit again
 
     //Human player wins
     else if (computer.getTotal() < player.getTotal()) {
+        console.log('called')
+        moneyManager.winNormal()
         const score = document.body.querySelector(".score")
             score.setAttribute("style", "display: block;")
             const result = document.body.querySelector(".result")
             result.setAttribute("style", "display: block;")
             result.innerHTML="YOU WIN! Your hand was bigger. :)"
-            const stay = document.body.querySelector("button.stay")
             stay.disabled = true
-            const hit = document.body.querySelector("button.hit")
             hit.disabled = true
-
+ 
 }
 
 
 //Draw scenario
 else if (computer.getTotal() == player.getTotal()) {
+    moneyManager.draw()
     const score = document.body.querySelector(".score")
     score.setAttribute("style", "display: block;")
     const result = document.body.querySelector(".result")
     result.setAttribute("style", "display: block;")
     result.innerHTML="DRAW!"
-    const stay = document.body.querySelector("button.stay")
     stay.disabled = true
-    const hit = document.body.querySelector("button.hit")
     hit.disabled = true
    
     }
@@ -293,16 +403,80 @@ else if (computer.getTotal() == player.getTotal()) {
 }
 
 //button function calls
-const stay = document.body.querySelector("button.stay")
+
 stay.addEventListener('click', gamePlay)
 
 
 const restart = () => {
     return location.reload()
 }
-const newGame = document.body.querySelector("button.new")
+
 newGame.addEventListener('click', restart)
 
+//place bet function
+const placeBet = (betAmount) => {
+wager += betAmount
+bet.textContent=`Stake: $${wager}`
+
+//update pot in local storage and UI
+moneyManager.bet(wager)
+
+
+//set display of buttons and cards
+
+setTimeout(() => {
+playButtons.forEach((btn) => {
+btn.style.display = 'inline-block'
+})
+
+playerCardsDisplay.style.display = 'flex'
+compCardsDisplay.style.display ='flex'
+doubleDown.style.display = 'inline-block'
+}, 2500)
+
+chips.forEach((chip) => {
+    chip.style.display = 'none'
+})
+
+}
+
+//event listner for chip buttons
+chips.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const value = Number(e.currentTarget.textContent);
+        placeBet(value);
+    });
+  });
+
+  //event listener for double down button
+
+  doubleDown.addEventListener('click', () => {
+    moneyManager.doubleDown()
+    wager = moneyManager.wager
+    bet.textContent=`Stake: $${wager}`
+
+    hit.style.display = 'none'
+    doubleDown.style.display = 'none'
+    player.hit()
+    
+
+    //show extra card added from hand on UI
+    const playerCards = document.body.querySelector(".player-cards")
+
+
+    for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
+       
+        const newCard = document.createElement("img")
+        
+        newCard.src = `./images/cards/${player.getHand()[i]}.jpg`
+      
+            playerCards.appendChild(newCard)
+    }
+
+    //fire the gamePlay function
+    gamePlay()
+  })
+  
 
 //player img elements
 const playerCardOne = document.body.querySelector(".player-cards img")
@@ -321,3 +495,12 @@ const compCardTwo =  document.body.querySelector("img.computer-card-two")
 compCardOne.src=`./images/cards/${computer.getFirstCard()}.jpg`
 compCardTwo.src=`./images/cards/cards-backs/Red_back.jpg`
 
+
+//inititalise player total on board
+  playerTotal.textContent=`Total: ${player.getTotal()}`
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+    moneyManager.display();
+
+  });
