@@ -172,6 +172,18 @@ button.new {
 
 .split-player-hands {
     display: none;
+    padding-left: 10rem;
+    gap: 50px;
+    padding-top: 10rem;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.split-player-hands img {
+        width: 4vw;
+    height: auto;
+    z-index: 10;
+   padding-top: 12%;
 }
 
 .player-total {

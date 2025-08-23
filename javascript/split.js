@@ -5,6 +5,7 @@ import { createPlayer } from "./player.js"
 
 //split button
 const split = document.body.querySelector('button.split')
+const splitUI = document.body.querySelector('.split-player-hands')
 
 //check if split is possible
 
@@ -64,6 +65,18 @@ secondHand.getHand().push(newCard)
 
 console.log(players[0].getHand(), players[1].getHand())
 //Now add both hands to UI//
+splitUI.setAttribute('style', 'display: flex;')
 
+for (let i = 0; i < players.length; i++) {
+  const div = document.createElement('div')
+  for (let z = 0; z < players[i].getHand().length; z++) {
+
+    const newCard = document.createElement("img")
+    newCard.src = `../images/cards/${players[i].getHand()[z]}.jpg`
+    div.appendChild(newCard)
+    splitUI.appendChild(div)
+  }
+
+}
 
 })
