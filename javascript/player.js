@@ -1,6 +1,6 @@
 import {drawCard} from "./deck.js"
 import {player} from "./game.js"
-import {getGameState, setGameState} from "./game.js"
+import {getGameState, setGameState, setActivePlayer} from "./game.js"
 import { moneyManager } from "./money.js"
 import {splitCheck} from "./split.js"
 
@@ -12,12 +12,14 @@ export const playerTotal = document.body.querySelector('.player-total')
 const stay = document.body.querySelector("button.stay")
 
 // createPlayer factory function
-export const createPlayer = (name, hand) => {
+export const createPlayer = (name, hand = null) => {
     let total = 0
 
 
 
-    const cards = [hand.cardOne, hand.cardTwo] //initialize start of game with 2 cards for the hand
+    const cards = hand
+    ? [hand.cardOne, hand.cardTwo]
+    : [] //initialize start of game with 2 cards for the hand
 
   
 
@@ -26,6 +28,15 @@ export const createPlayer = (name, hand) => {
 
     const getFirstCard = () => cards[0]
     const getSecondCard = () => cards[1]
+
+    const removeCard = (index) => {
+
+let removed = cards.splice(index, 1)
+let newCard = drawCard()
+cards.push(newCard)
+splitCalcTotal()
+return removed
+    }
 
     const getPlayerName = () => name;
 
@@ -40,9 +51,19 @@ export const createPlayer = (name, hand) => {
    
     }
 
+    const isSplit = () => {
+        if(!splitCheck()) {
+          calcTotal()
+            
+           }
+       else if (splitCheck()) {
+        splitCalcTotal()
+       }
+    }
+
     const calcTotal = () => {
         total = 0
-       splitCheck()
+
                    // adjust Aces if total > 21 before deciding on outcome
  
 
@@ -130,5 +151,84 @@ setTimeout(() => {
             return console.log(`${name} wins!`)
         }
     }}
-    return { getPlayerName, getHand, hit, calcTotal, getTotal, getFirstCard, getSecondCard };
+
+    const splitCalcTotal = () => {
+        total = 0
+
+        // adjust Aces if total > 21 before deciding on outcome
+
+
+for (let i = 0; i < cards.length; i++) {
+ let card = cards[i].split(" ")[0];
+
+ if (!isNaN(card)) {
+ total += parseInt(card);
+}
+  else {
+     switch (card) {
+         case "jack":
+         case "queen":
+         case "king":
+             
+             total += 10;
+         
+             break
+         case "ace":
+            total += 1
+            break;
+         } 
+            
+        
+     }
+ }
+ const hasAce = cards.some(card => /ace of \w+/.test(card))
+if (total < 12 && hasAce === true) {
+
+total += 10
+}
+
+if (total > 21  && getGameState() === false) { //**if comp busts. edit this! */
+setGameState(true)
+ if (getPlayerName() == `Computer`) {
+
+     moneyManager.winNormal()
+ const score = document.body.querySelector(".score")
+ score.setAttribute("style", "display: block;")
+ const result = document.body.querySelector(".result")
+ result.setAttribute("style", "display: block;")
+ result.innerHTML="YOU WIN!"
+ stay.disabled = true
+ hit.disabled = true
+ return console.log(`${name}'s total is over 21. ${name} loses`)
+} 
+
+else if (getPlayerName() != `Computer`) {
+ //darken the hand for this 
+
+ return console.log(`hand has bust`)
+}
+}
+else if (total < 21) {
+ `${name}'s total is ${total}.`;
+
+} 
+else if (total === 21) {
+
+ if (getPlayerName() != `Computer`) {
+    //darken this hand
+     moneyManager.blackJack() //this will need changing //
+setActivePlayer() //moves onto next hand or activates stay//
+}
+
+//when computer gets blackjack//
+else if (getPlayerName() == `Computer`) {
+//return wager for that hand
+ stay.disabled = true
+ hit.disabled = true
+ return console.log(`${name} wins!`)
+}
+}
+    }
+    return { getPlayerName, getHand, removeCard, hit, 
+        splitCalcTotal, isSplit, calcTotal, getTotal, getFirstCard, getSecondCard };
     };

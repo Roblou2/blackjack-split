@@ -1,0 +1,77 @@
+**First, will need to change player to players[activeHand] in relevant functions**
+**perhaps need to move displayedPlayerCards to createPlayer or elsewhere**
+**may need to setGameState in new gamePlay() function and maybe in player object**
+
+set activePlayer to 0 (for index tracking in array of players)
+
+At game start, create player and put into players array. 
+
+Immediately call a fucntion which checks
+for a split on the player created at game start
+(add as a method in player logic)
+
+If there is no split available, let calcTotal run as normal
+
+For split hands, firstly, 2 new hands players need to be created 
+(with split hands), 
+pushed to players array and splitCalcTotal called. Update UI.
+
+New duplictate wager is made for the extra hand.
+
+The new route first checks for another possible split and creates new players
+again if another split is possible and is activated. New players are 
+pushed to array and UI updated.
+
+new calcTotal route is run on players[activePlayer],
+totals the hand, and checks for a blackjack.
+If there is a blackjack, the hand stay function is activated, which
+needs to have logic added that moves onto next hand to repeat the process.
+This can be done via the players.length array and activePlayer var.
+
+If there's no blackjack, the hit, stay and double down buttons
+need to be activated. The following needs implementing for 
+the functions of those buttons:
+
+	hit function: 
+if players.length == 1
+--> hit function targets players[0] and normal calcTotal method is called
+
+if players.length > 1 
+the function needs to make the hit function target players[activePlayer]
+if players busts, activePlayer++ - which allows the hit function
+to target next player upon click.
+
+If player hits, new calcTotal route needs to be called to check total.
+Hand plays until player clicks stay
+
+	stay function:
+
+if players.length > 1 && activePlayer <= players.length -1
+activePlayer++ 
+stay() called again to check activePlayer value
+Now the hit button can target the next player in the array
+
+if players.length > 1 && activePlayer >= players.length -1
+--> new gamePlay() function is called which checks comp total against
+each hand
+
+
+	double down function:
+
+if players.length == 1
+-->hit and double down function is called in usual fashion 
+
+if players.length > 1
+--> route hit function to follow as above for split hands
+
+split gameplay () is then called
+all buttons disabled
+activePlayer set back to 0
+it checks each hand against comp total and pays out accordingly
+it will need to increment activePlayer to check totals until all
+have been checked.
+
+show final outcomes UI
+
+
+

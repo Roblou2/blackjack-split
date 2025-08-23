@@ -76,7 +76,7 @@ gamePlay() //recalls the function for computer to hit again
 
     //Human player wins
     else if (computer.getTotal() < player.getTotal()) {
-        console.log('called')
+     
         moneyManager.winNormal()
         const score = document.body.querySelector(".score")
             score.setAttribute("style", "display: block;")

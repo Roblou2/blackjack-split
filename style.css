@@ -91,6 +91,17 @@ height: auto;
 
 }
 
+button.split {
+    position: absolute;
+display: none;
+font-size: 25px;
+background-color: rgb(238, 79, 119);
+color: white;
+top: 10rem;
+right: 2rem;
+height: auto;
+}
+
 .bet {
     position: absolute;
     top: 18rem;
@@ -157,6 +168,10 @@ button.new {
         padding-left: 45rem;
   padding-top: 6rem;
     align-items: center;
+}
+
+.split-player-hands {
+    display: none;
 }
 
 .player-total {
@@ -243,6 +258,13 @@ bottom: 20rem;
 width: 150px;
 top: auto;
 right: 2rem;
+}
+
+button.split {
+bottom: 20 rem;
+width: 150px;
+right: 2rem;
+height: auto;
 }
 
 }

@@ -18,11 +18,18 @@ const newGame = document.body.querySelector("button.new")
 createDeck(); // Make deck fo cards
 
 
-
-
-
 export const getGameState = () => gameOver
 export const setGameState = (val) => {gameOver = val}
+
+//active player var for deciding which player object functions should target
+let activePlayer = 0
+
+export const getActivePlayer = () => activePlayer
+export const setActivePlayer = () => activePlayer++
+
+//define players array
+export let players = []
+
 //comp total
 export const compTotal = document.body.querySelector('.comp-total')
 
@@ -46,16 +53,21 @@ export const getDisplayedPlayerCards = () => displayedPlayerCards
 export const setDisplayedPlayerCards = (val) => {displayedPlayerCards = val}
 
 
+
 //make human and computer players and get player's total from hand//
 export const player = createPlayer("Rob", makeHand()); 
-player.calcTotal()
+//push to players array
+players.push(player)
+player.isSplit()
+
+
 
 export const computer = createPlayer("Computer", makeHand());
 
 
 
 hit.addEventListener('click', () => {
-    player.hit()
+    players[activePlayer].hit()
 //add players card to board
 
 const playerCards = document.body.querySelector(".player-cards")
