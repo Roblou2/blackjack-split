@@ -3,6 +3,7 @@ import {gamePlay} from "./gameplay.js"
 import {createPlayer} from "./player.js"
 import {moneyManager} from "./money.js"
 import {playerTotal} from "./player.js"
+import {splitCheck} from "./split.js"
 
 export let gameOver = false
 //*****DOM ELEMENTS:******
@@ -15,7 +16,6 @@ const stay = document.body.querySelector("button.stay")
 //new game button
 const newGame = document.body.querySelector("button.new")
 
-createDeck(); // Make deck fo cards
 
 
 export const getGameState = () => gameOver
@@ -26,6 +26,19 @@ let activePlayer = 0
 
 export const getActivePlayer = () => activePlayer
 export const setActivePlayer = () => activePlayer++
+
+//number of splits var to monitor how many times player has split (max of 4 hands)//
+let splitNumber = 0
+
+export const getsplitNumber = () => splitNumber
+export const setSplitNumber = () => splitNumber++
+
+//define var for number of hands on board//
+
+let handsAmount = 0
+
+export const getHandsOnBoard = () => handsAmount
+export const setHandsOnBoard = () => handsAmount++
 
 //define players array
 export let players = []
@@ -53,18 +66,36 @@ export const getDisplayedPlayerCards = () => displayedPlayerCards
 export const setDisplayedPlayerCards = (val) => {displayedPlayerCards = val}
 
 
+//**GAME START **/
 
-//make human and computer players and get player's total from hand//
+// Make deck of cards//
+createDeck() 
+//make human player and get player's total from hand//
 export const player = createPlayer("Rob", makeHand()); 
 //push to players array
 players.push(player)
-player.isSplit()
+players[activePlayer].isSplit()
 
 
-
+//Make computer player//
 export const computer = createPlayer("Computer", makeHand());
 
+//loop through players array in case of split hands and play each one in turn//
+export const playersLoop = () => {
+  if (getsplitNumber() == 0) {
+    return players[getActivePlayer()].isSplit() //game proceeds as normal //
+  }
 
+  else if (getsplitNumber() > 0) { //if a split happened //
+
+    for (let i = getActivePlayer(); i < players.length; i++) {
+      //is another split possible?//
+if (players[getActivePlayer()].splitCheck()) {
+
+}
+    }
+  }
+}
 
 hit.addEventListener('click', () => {
     players[activePlayer].hit()

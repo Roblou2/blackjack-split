@@ -1,4 +1,6 @@
-import {player, players } from "./game.js"
+import {players, getActivePlayer, 
+  setActivePlayer, getsplitNumber, setSplitNumber, getHandsOnBoard, 
+  setHandsOnBoard } from "./game.js"
 import { drawCard } from "./deck.js"
 import { createPlayer } from "./player.js"
 
@@ -11,8 +13,8 @@ const splitUI = document.body.querySelector('.split-player-hands')
 
 export const splitCheck = () => {
 
-let firstCard = player.getFirstCard().split(" ")[0] 
-let secondCard = player.getSecondCard().split(" ")[0]
+let firstCard = players[getActivePlayer()].getFirstCard().split(" ")[0] 
+let secondCard = players[getActivePlayer()].getSecondCard().split(" ")[0]
 
  const isFaceCard = (card) => {
     switch (card) {
@@ -45,6 +47,8 @@ console.log(`Cards are equal in value (${firstCard} and ${secondCard})`);
 
 }
 
+
+
 split.addEventListener('click', () => {
 
   //remove player-cards form UI//
@@ -53,21 +57,24 @@ split.addEventListener('click', () => {
 
   //remove 2nd card in player hand and store as var for new player//
   //then draw a new card for player and create 2nd player
- let secondCard = player.removeCard(1)
+ let secondCard = players[getActivePlayer()].removeCard(1)
 
   //create new player, push to players array and assign split hand//
-const secondHand = createPlayer("hand two")
-players.push(secondHand)
-secondHand.getHand().push(secondCard) //pushes spliced hand from player to secondHand
+const newHand = createPlayer(`hand${getsplitNumber()}`)
+setSplitNumber() //increase split number for next split button event call
+setHandsOnBoard()
+players.push(newHand)
+newHand.getHand().push(secondCard) //pushes spliced hand from player[activePlayer] 
+// to secondHand
 //now draw another card for secondHand
 let newCard = drawCard()
-secondHand.getHand().push(newCard)
+newHand.getHand().push(newCard)
 
-console.log(players[0].getHand(), players[1].getHand())
+
 //Now add both hands to UI//
 splitUI.setAttribute('style', 'display: flex;')
 
-for (let i = 0; i < players.length; i++) {
+for (let i = getActivePlayer(); i <= players.length -1; i++) {
   const div = document.createElement('div')
   for (let z = 0; z < players[i].getHand().length; z++) {
 
@@ -78,5 +85,6 @@ for (let i = 0; i < players.length; i++) {
   }
 
 }
+
 
 })

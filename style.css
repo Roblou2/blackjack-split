@@ -176,7 +176,7 @@ button.new {
     gap: 50px;
     padding-top: 10rem;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .split-player-hands img {
