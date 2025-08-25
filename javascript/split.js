@@ -100,35 +100,34 @@ div.remove()
 else if (!players[getActivePlayer()].getHandDone() && getActivePlayer() > 0 && getNumHands() < 5) {
 
   handDivs.forEach(div => {
-   const toRemove = players[getActivePlayer()].getHandIndex()
-   console.log(toRemove)
-    const handIndex = div.dataset.hand;   // string
-    const handIndexNum = parseInt(handIndex, 10);
-    console.log(handIndexNum)
-    if (handIndexNum == toRemove) {
+ 
+
     
       div.remove()
-    }
+    
     })
 }
 
 }
 }
+for (let i = 0; i < players.length; i++) {
+  console.log(players[i].getHand())
+}
 
-
-for (let i = getActivePlayer(); i < players.length; i++) {
+for (let i = 0; i < players.length; i++) {
 
   const div = document.createElement('div')
   div.dataset.hand = i
+  players[i].setHandIndex(i) //set hand index in this hand to same as its div
   for (let z = 0; z < players[i].getHand().length; z++) {
-players[i].setHandIndex(i) //set hand index in this hand to same as its div
+
     const newCard = document.createElement("img")
     newCard.src = `../images/cards/${players[i].getHand()[z]}.jpg`
     div.appendChild(newCard)
-    splitUI.appendChild(div)
+ 
    
   }
-
+  splitUI.appendChild(div)
 }
 
 })

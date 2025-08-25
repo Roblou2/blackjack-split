@@ -91,22 +91,7 @@ export const computer = createPlayer("Computer", makeHand());
 
 //loop through players array in case of split hands and play each one in turn//
 
-export const playersLoop = () => {
-  if (getHandsOnBoard() == 0) {
-    return players[getActivePlayer()].isSplit() // no split has happend//
-    // game proceeds as normal and calls calcTotal//
-  }
 
-  else if (getHandsOnBoard() > 0) { //if a split happened //
-
-    for (let i = getActivePlayer(); i < players.length; i++) {
-      //is another split possible?//
-if (players[getActivePlayer()].splitCheck() && getHandsOnBoard() <4) {
-
-}
-    }
-  }
-}
 
 hit.addEventListener('click', () => {
     players[activePlayer].hit()

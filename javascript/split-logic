@@ -6,9 +6,11 @@
 
 
 ****Where am I up to?
- I am at playersLoop function in game.js. 
+
 players array being made correctly upon split
-But dataset on hands not matching activePlayer
+can now split so that up to 4 hands are on the table
+everything seems to be working now...
+but must test split at different activePlayer values
 ****
 
 set activePlayer to 0 (for index tracking in array of players)
