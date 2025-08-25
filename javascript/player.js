@@ -34,7 +34,7 @@ let handIndex = null
 
     const removeCard = (index) => {
 
-let removed = cards.splice(index, 1)
+let removed = cards.splice(index, 1)[0]
 let newCard = drawCard()
 cards.push(newCard)
 splitCalcTotal()
@@ -168,6 +168,7 @@ setTimeout(() => {
 
 
 for (let i = 0; i < cards.length; i++) {
+
  let card = cards[i].split(" ")[0];
 
  if (!isNaN(card)) {

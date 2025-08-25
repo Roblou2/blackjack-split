@@ -9,6 +9,10 @@ export let gameOver = false
 //*****DOM ELEMENTS:******
 //hit button
 const hit = document.body.querySelector("button.hit")
+const playerUp = document.body.querySelector("button.active-player-up")
+const playerDown = document.body.querySelector("button.active-player-down")
+
+
 
 //stay button
 const stay = document.body.querySelector("button.stay")
@@ -27,7 +31,15 @@ let activePlayer = 0
 export const getActivePlayer = () => activePlayer
 export const setActivePlayer = () => activePlayer++
 
+playerUp.addEventListener('click', () => {
+  activePlayer++
+  console.log(activePlayer)
+})
 
+playerDown.addEventListener('click', () => {
+  activePlayer--
+  console.log(activePlayer)
+})
 //define var for number of hands on board//
 
 

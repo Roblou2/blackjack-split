@@ -3,10 +3,13 @@
 **may need to setGameState in new gamePlay() function and maybe in player object**
 **Need to setHandDone when stay button is clicked**
 
+
+
 ****Where am I up to?
- I am at playersLoop function in game.js. Need to set
-i properly in loop in split button so that it only adds new hands
-created on each split button click****
+ I am at playersLoop function in game.js. 
+players array being made correctly upon split
+But dataset on hands not matching activePlayer
+****
 
 set activePlayer to 0 (for index tracking in array of players)
 

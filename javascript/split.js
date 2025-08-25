@@ -86,7 +86,7 @@ if (getNumHands() > 2) {
 for (let x = getActivePlayer(); x < players.length; x++) {
 
 
-  //scenario: when hand[getActivePlayer() =0] in array can be split and no hands are done//
+  //scenario: when hand[getActivePlayer()] = 0 in array can be split and no hands are done//
   if (!players[getActivePlayer()].getHandDone() && getActivePlayer() == 0) {
 
 handDivs.forEach(div => {
@@ -95,11 +95,29 @@ div.remove()
   
   })
 }
+
+//scenario: when hand[getActivePlayer()] != 0, remove hand that is active
+else if (!players[getActivePlayer()].getHandDone() && getActivePlayer() > 0 && getNumHands() < 5) {
+
+  handDivs.forEach(div => {
+   const toRemove = players[getActivePlayer()].getHandIndex()
+   console.log(toRemove)
+    const handIndex = div.dataset.hand;   // string
+    const handIndexNum = parseInt(handIndex, 10);
+    console.log(handIndexNum)
+    if (handIndexNum == toRemove) {
+    
+      div.remove()
+    }
+    })
+}
+
 }
 }
 
 
 for (let i = getActivePlayer(); i < players.length; i++) {
+
   const div = document.createElement('div')
   div.dataset.hand = i
   for (let z = 0; z < players[i].getHand().length; z++) {

@@ -102,6 +102,28 @@ right: 2rem;
 height: auto;
 }
 
+button.active-player-up {
+        position: absolute;
+
+font-size: 25px;
+background-color: black;
+color: white;
+top: 13rem;
+right: 2rem;
+height: auto;
+}
+
+button.active-player-down {
+        position: absolute;
+
+font-size: 25px;
+background-color: black;
+color: white;
+top: 15rem;
+right: 2rem;
+height: auto;
+}
+
 .bet {
     position: absolute;
     top: 18rem;
@@ -275,6 +297,20 @@ right: 2rem;
 button.split {
 bottom: 20 rem;
 width: 150px;
+right: 2rem;
+height: auto;
+}
+
+button.active-player-up {
+       
+bottom: 25rem;
+right: 2rem;
+height: auto;
+}
+
+button.active-player-up {
+     
+bottom: 27rem;
 right: 2rem;
 height: auto;
 }
