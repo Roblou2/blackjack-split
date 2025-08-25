@@ -1,6 +1,5 @@
 import {players, getActivePlayer, 
-  setActivePlayer, getsplitNumber, setSplitNumber, getHandsOnBoard, 
-  setHandsOnBoard } from "./game.js"
+  setActivePlayer, getNumHands } from "./game.js"
 import { drawCard } from "./deck.js"
 import { createPlayer } from "./player.js"
 
@@ -59,10 +58,10 @@ split.addEventListener('click', () => {
   //then draw a new card for player and create 2nd player
  let secondCard = players[getActivePlayer()].removeCard(1)
 
-  //create new player, push to players array and assign split hand//
-const newHand = createPlayer(`hand${getsplitNumber()}`)
-setSplitNumber() //increase split number for next split button event call
-setHandsOnBoard()
+  //create new player, push to players array //
+const newHand = createPlayer(`hand${getNumHands()}`)
+
+
 players.push(newHand)
 newHand.getHand().push(secondCard) //pushes spliced hand from player[activePlayer] 
 // to secondHand
@@ -71,20 +70,47 @@ let newCard = drawCard()
 newHand.getHand().push(newCard)
 
 
-//Now add both hands to UI//
+//Now add split hands to UI//
+getNumHands()
+
 splitUI.setAttribute('style', 'display: flex;')
 
-for (let i = getActivePlayer(); i <= players.length -1; i++) {
-  const div = document.createElement('div')
-  for (let z = 0; z < players[i].getHand().length; z++) {
+//firstly, remove hands from UI that are not done because their UI needs updating
+// to reflect new hand just made for them//
+//start at activePlayer as all hands will be done up to here://
 
+if (getNumHands() > 2) {
+
+  const handDivs = document.querySelectorAll('.split-player-hands div')
+
+for (let x = getActivePlayer(); x < players.length; x++) {
+
+
+  //scenario: when hand[getActivePlayer() =0] in array can be split and no hands are done//
+  if (!players[getActivePlayer()].getHandDone() && getActivePlayer() == 0) {
+
+handDivs.forEach(div => {
+  // grab the dataset value
+div.remove()
+  
+  })
+}
+}
+}
+
+
+for (let i = getActivePlayer(); i < players.length; i++) {
+  const div = document.createElement('div')
+  div.dataset.hand = i
+  for (let z = 0; z < players[i].getHand().length; z++) {
+players[i].setHandIndex(i) //set hand index in this hand to same as its div
     const newCard = document.createElement("img")
     newCard.src = `../images/cards/${players[i].getHand()[z]}.jpg`
     div.appendChild(newCard)
     splitUI.appendChild(div)
+   
   }
 
 }
-
 
 })

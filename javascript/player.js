@@ -4,6 +4,7 @@ import {getGameState, setGameState, setActivePlayer} from "./game.js"
 import { moneyManager } from "./money.js"
 import {splitCheck} from "./split.js"
 
+
 //DOM//
 
 //player total 
@@ -15,7 +16,9 @@ const stay = document.body.querySelector("button.stay")
 export const createPlayer = (name, hand = null) => {
     let total = 0
 
+let handDone = false 
 
+let handIndex = null
 
     const cards = hand
     ? [hand.cardOne, hand.cardTwo]
@@ -50,6 +53,12 @@ return removed
         playerTotal.textContent=`Total: ${player.getTotal()}`
    
     }
+
+    const getHandDone = () => handDone
+const setHandDone = () => handDone = true
+
+const getHandIndex = () => handIndex
+const setHandIndex = (val) => handIndex = val
 
     const isSplit = () => {
         if(!splitCheck()) {
@@ -204,7 +213,7 @@ setGameState(true)
 
 else if (getPlayerName() != `Computer`) {
  //darken the hand for this 
-
+setHandDone()
  return console.log(`hand has bust`)
 }
 }
@@ -216,6 +225,7 @@ else if (total === 21) {
 
  if (getPlayerName() != `Computer`) {
     //darken this hand
+    setHandDone()
      moneyManager.blackJack() //this will need changing //
 setActivePlayer() //moves onto next hand or activates stay//
 }
@@ -230,5 +240,6 @@ else if (getPlayerName() == `Computer`) {
 }
     }
     return { getPlayerName, getHand, removeCard, hit, 
-        splitCalcTotal, isSplit, calcTotal, getTotal, getFirstCard, getSecondCard };
+        splitCalcTotal, getHandDone, setHandDone, getHandIndex, setHandIndex,
+         isSplit, calcTotal, getTotal, getFirstCard, getSecondCard };
     };

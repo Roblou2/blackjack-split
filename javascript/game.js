@@ -27,18 +27,12 @@ let activePlayer = 0
 export const getActivePlayer = () => activePlayer
 export const setActivePlayer = () => activePlayer++
 
-//number of splits var to monitor how many times player has split (max of 4 hands)//
-let splitNumber = 0
-
-export const getsplitNumber = () => splitNumber
-export const setSplitNumber = () => splitNumber++
 
 //define var for number of hands on board//
 
-let handsAmount = 0
 
-export const getHandsOnBoard = () => handsAmount
-export const setHandsOnBoard = () => handsAmount++
+export const getNumHands = () => players.length
+
 
 //define players array
 export let players = []
@@ -72,6 +66,9 @@ export const setDisplayedPlayerCards = (val) => {displayedPlayerCards = val}
 createDeck() 
 //make human player and get player's total from hand//
 export const player = createPlayer("Rob", makeHand()); 
+
+//increase number of hands on board by 1//
+
 //push to players array
 players.push(player)
 players[activePlayer].isSplit()
@@ -81,16 +78,18 @@ players[activePlayer].isSplit()
 export const computer = createPlayer("Computer", makeHand());
 
 //loop through players array in case of split hands and play each one in turn//
+
 export const playersLoop = () => {
-  if (getsplitNumber() == 0) {
-    return players[getActivePlayer()].isSplit() //game proceeds as normal //
+  if (getHandsOnBoard() == 0) {
+    return players[getActivePlayer()].isSplit() // no split has happend//
+    // game proceeds as normal and calls calcTotal//
   }
 
-  else if (getsplitNumber() > 0) { //if a split happened //
+  else if (getHandsOnBoard() > 0) { //if a split happened //
 
     for (let i = getActivePlayer(); i < players.length; i++) {
       //is another split possible?//
-if (players[getActivePlayer()].splitCheck()) {
+if (players[getActivePlayer()].splitCheck() && getHandsOnBoard() <4) {
 
 }
     }

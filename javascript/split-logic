@@ -1,6 +1,12 @@
 **First, will need to change player to players[activeHand] in relevant functions**
 **perhaps need to move displayedPlayerCards to createPlayer or elsewhere**
 **may need to setGameState in new gamePlay() function and maybe in player object**
+**Need to setHandDone when stay button is clicked**
+
+****Where am I up to?
+ I am at playersLoop function in game.js. Need to set
+i properly in loop in split button so that it only adds new hands
+created on each split button click****
 
 set activePlayer to 0 (for index tracking in array of players)
 
