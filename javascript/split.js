@@ -86,18 +86,18 @@ if (getNumHands() > 2) {
 for (let x = getActivePlayer(); x < players.length; x++) {
 
 
-  //scenario: when hand[getActivePlayer()] = 0 in array can be split and no hands are done//
-  if (!players[getActivePlayer()].getHandDone() && getActivePlayer() == 0) {
+  //scenario: when hand[getActivePlayer()] = 0 in array 
+  if (getActivePlayer() == 0) {
 
 handDivs.forEach(div => {
-  // grab the dataset value
+
 div.remove()
   
   })
 }
 
 //scenario: when hand[getActivePlayer()] != 0, remove hand that is active
-else if (!players[getActivePlayer()].getHandDone() && getActivePlayer() > 0 && getNumHands() < 5) {
+else if (getActivePlayer() > 0 && getNumHands() < 5) {
 
   handDivs.forEach(div => {
  
@@ -117,8 +117,7 @@ for (let i = 0; i < players.length; i++) {
 for (let i = 0; i < players.length; i++) {
 
   const div = document.createElement('div')
-  div.dataset.hand = i
-  players[i].setHandIndex(i) //set hand index in this hand to same as its div
+
   for (let z = 0; z < players[i].getHand().length; z++) {
 
     const newCard = document.createElement("img")
@@ -129,5 +128,5 @@ for (let i = 0; i < players.length; i++) {
   }
   splitUI.appendChild(div)
 }
-
+console.log(getNumHands())
 })

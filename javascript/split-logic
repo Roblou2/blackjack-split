@@ -9,8 +9,11 @@
 
 players array being made correctly upon split
 can now split so that up to 4 hands are on the table
-everything seems to be working now...
-but must test split at different activePlayer values
+split testing shows it works at all activePlayer values
+now must modify hit, double down and stay functions so that
+they target the correct hand via activePlayer
+
+4/9: hit function checks for number of hands
 ****
 
 set activePlayer to 0 (for index tracking in array of players)

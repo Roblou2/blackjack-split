@@ -94,6 +94,10 @@ export const computer = createPlayer("Computer", makeHand());
 
 
 hit.addEventListener('click', () => {
+
+  //for only 1 hand and no split ones
+  if (getNumHands() == 1) {
+    
     players[activePlayer].hit()
 //add players card to board
 
@@ -112,7 +116,7 @@ for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
 
   // Update the count of displayed player cards
   displayedPlayerCards = player.getHand().length;
-
+  }
 
 })
 
