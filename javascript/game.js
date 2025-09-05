@@ -29,7 +29,12 @@ export const setGameState = (val) => {gameOver = val}
 let activePlayer = 0
 
 export const getActivePlayer = () => activePlayer
-export const setActivePlayer = () => activePlayer++
+export const setActivePlayer = () => {
+  activePlayer++
+
+  //each time the hand changes to next one, reset number of cards on UI//
+  setDisplayedPlayerCards(2)
+}
 
 playerUp.addEventListener('click', () => {
   activePlayer++
@@ -104,18 +109,43 @@ hit.addEventListener('click', () => {
 const playerCards = document.body.querySelector(".player-cards")
 
 //loop through player hand and set i = displayedplayercards
-for (let i = displayedPlayerCards; i < player.getHand().length; i++) {
+for (let i = displayedPlayerCards; i < players[activePlayer].getHand().length; i++) {
    
     const newCard = document.createElement("img")
     
-    newCard.src = `../images/cards/${player.getHand()[i]}.jpg`
+    newCard.src = `../images/cards/${players[activePlayer].getHand()[i]}.jpg`
   
         playerCards.appendChild(newCard)
     
 }
 
   // Update the count of displayed player cards
-  displayedPlayerCards = player.getHand().length;
+  displayedPlayerCards = players[activePlayer].getHand().length;
+  }
+
+  else if (getNumHands() > 1) {
+    players[activePlayer].hit()
+    const splitPlayerCards = document.body.querySelector(".split-player-hands")
+    //get all hands under parent //
+    const hands = splitPlayerCards.querySelectorAll(":scope > div") 
+
+
+    for (let i = displayedPlayerCards; i < players[activePlayer].getHand().length; i++) {
+   
+      // define which div in split-player-hands to add card img to//
+      const target = hands[activePlayer]
+
+      const newCard = document.createElement("img")
+      
+      newCard.src = `../images/cards/${players[activePlayer].getHand()[i]}.jpg`
+    
+         target.appendChild(newCard)
+      
+  }
+  
+    // Update the count of displayed player cards
+    displayedPlayerCards = players[activePlayer].getHand().length;
+
   }
 
 })

@@ -1,6 +1,6 @@
 import {drawCard} from "./deck.js"
 import {player} from "./game.js"
-import {getGameState, setGameState, setActivePlayer} from "./game.js"
+import {getGameState, setGameState, setActivePlayer, getActivePlayer, getNumHands } from "./game.js"
 import { moneyManager } from "./money.js"
 import {splitCheck} from "./split.js"
 
@@ -46,12 +46,21 @@ return removed
     const getHand = () => cards
 
     const hit = () => {
+
+        if (getNumHands() == 1) {
         let newCard = drawCard();
     
         cards.push(newCard)
         calcTotal()
         playerTotal.textContent=`Total: ${player.getTotal()}`
-   
+        }
+
+if (getNumHands() > 1) {
+    let newCard = drawCard();
+    cards.push(newCard)
+    splitCalcTotal()
+    //**need to update UI for total value of hand here* */
+}
     }
 
     const getHandDone = () => handDone
@@ -213,13 +222,16 @@ setGameState(true)
 } 
 
 else if (getPlayerName() != `Computer`) {
- //darken the hand for this 
+ //**darken the hand for this **//
 setHandDone()
+
+//move to next player in players array because hand has bust//
+setActivePlayer()
  return console.log(`hand has bust`)
 }
 }
 else if (total < 21) {
- `${name}'s total is ${total}.`;
+ `Hand ${getActivePlayer} total is ${total}.`;
 
 } 
 else if (total === 21) {
