@@ -125,6 +125,7 @@ for (let i = displayedPlayerCards; i < players[activePlayer].getHand().length; i
 
   else if (getNumHands() > 1) {
     players[activePlayer].hit()
+    console.log("Updating UI...")
     const splitPlayerCards = document.body.querySelector(".split-player-hands")
     //get all hands under parent //
     const hands = splitPlayerCards.querySelectorAll(":scope > div") 
@@ -145,6 +146,19 @@ for (let i = displayedPlayerCards; i < players[activePlayer].getHand().length; i
   
     // Update the count of displayed player cards
     displayedPlayerCards = players[activePlayer].getHand().length;
+
+    // now check if hands has bust:
+if (players[activePlayer].getHandDone()) {
+  console.log(`Hand ${activePlayer} has busted, moving to next hand...`)
+  if (activePlayer < players.length - 1) {
+    //**This must be called to reset displayedPlayerCards*: */
+      setActivePlayer()
+  } else if (activePlayer == players.length - 1) {
+    console.log("Last hand reached")
+    //**do not call setActivePlayer if it's last hand in players array **/
+      // all hands finished.Could call gamePlay here
+  }
+}
 
   }
 

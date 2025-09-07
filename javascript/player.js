@@ -1,6 +1,6 @@
 import {drawCard} from "./deck.js"
 import {player} from "./game.js"
-import {getGameState, setGameState, setActivePlayer, getActivePlayer, getNumHands } from "./game.js"
+import {getGameState, setGameState, setActivePlayer, getActivePlayer, getNumHands, players } from "./game.js"
 import { moneyManager } from "./money.js"
 import {splitCheck} from "./split.js"
 
@@ -58,7 +58,9 @@ return removed
 if (getNumHands() > 1) {
     let newCard = drawCard();
     cards.push(newCard)
+    console.log("Running splitCalcTOtal now...")
     splitCalcTotal()
+    console.log(`${getTotal()}`)
     //**need to update UI for total value of hand here* */
 }
     }
@@ -201,15 +203,16 @@ for (let i = 0; i < cards.length; i++) {
      }
  }
  const hasAce = cards.some(card => /ace of \w+/.test(card))
+
 if (total < 12 && hasAce === true) {
 
 total += 10
 }
-
+console.log(`the total is ${total}`)
 if (total > 21  && getGameState() === false) { //**if comp busts. edit this! */
 setGameState(true)
  if (getPlayerName() == `Computer`) {
-
+console.log(`comp logic being called`)
      moneyManager.winNormal()
  const score = document.body.querySelector(".score")
  score.setAttribute("style", "display: block;")
@@ -222,16 +225,28 @@ setGameState(true)
 } 
 
 else if (getPlayerName() != `Computer`) {
+    console.log("player total over 21 logic being called")
  //**darken the hand for this **//
 setHandDone()
 
 //move to next player in players array because hand has bust//
-setActivePlayer()
- return console.log(`hand has bust`)
+
+if (getActivePlayer() == players.length -1 ) {
+    console.log(`${this.getTotal()}`)
+    console.log(`${this.cards}`)
+ console.log(`hand has bust`)
+     //**activate gamePlay here if true */
+}
+//*otherwise move to next hand:**//
+else if (getActivePlayer() < players.length - 1) {
+    
+
+ console.log(`hand has bust`)
+}
 }
 }
 else if (total < 21) {
- `Hand ${getActivePlayer} total is ${total}.`;
+ `Hand ${getActivePlayer()} total is ${total}.`;
 
 } 
 else if (total === 21) {
@@ -240,7 +255,7 @@ else if (total === 21) {
     //darken this hand
     setHandDone()
      moneyManager.blackJack() //this will need changing //
-setActivePlayer() //moves onto next hand or activates stay//
+
 }
 
 //when computer gets blackjack//
