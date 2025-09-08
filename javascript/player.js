@@ -210,7 +210,7 @@ total += 10
 }
 console.log(`the total is ${total}`)
 if (total > 21  && getGameState() === false) { //**if comp busts. edit this! */
-setGameState(true)
+//**could active setGameState here if last active player */
  if (getPlayerName() == `Computer`) {
 console.log(`comp logic being called`)
      moneyManager.winNormal()
@@ -232,9 +232,8 @@ setHandDone()
 //move to next player in players array because hand has bust//
 
 if (getActivePlayer() == players.length -1 ) {
-    console.log(`${this.getTotal()}`)
-    console.log(`${this.cards}`)
- console.log(`hand has bust`)
+console.log("End of players array")
+ console.log(`Last hand has bust`)
      //**activate gamePlay here if true */
 }
 //*otherwise move to next hand:**//

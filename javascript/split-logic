@@ -13,11 +13,11 @@ split testing shows it works at all activePlayer values
 now must modify hit, double down and stay functions so that
 they target the correct hand via activePlayer
 
-5/9: hit function can target other hands, but has bugs.
-      Need to debug and make sure it's targeting each hand correctly 
-     it's possibly because of players[activePlayer] being undefined
-     Look at where activePlayer is being set in each function - in player.js and game.js
-     and look at splitCalcTotal function as it's not totalling properly
+7/9: hit function targets hands correctly
+but bust hand logic not being called correctly after
+first hand busts in splitCalcTotal
+-> over 21 logic not firing. Look at the logic flow in game.js 
+and how everything is called and in player.js
 ****
 
 set activePlayer to 0 (for index tracking in array of players)
