@@ -149,7 +149,8 @@ for (let i = displayedPlayerCards; i < players[activePlayer].getHand().length; i
 
     // now check if hands has bust:
 if (players[activePlayer].getHandDone()) {
-  console.log(`Hand ${activePlayer} has busted, moving to next hand...`)
+  console.log(`Hand ${activePlayer} has busted, or has blackjack.
+     Moving to next hand...`)
   if (activePlayer < players.length - 1) {
     //**This must be called to reset displayedPlayerCards*: */
       setActivePlayer()
