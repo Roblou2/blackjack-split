@@ -170,7 +170,35 @@ if (players[activePlayer].getHandDone()) {
 
 //button function calls
 
-stay.addEventListener('click', gamePlay)
+stay.addEventListener('click', () => {
+    //for only 1 hand and no split ones
+    if (getNumHands() == 1) {
+  gamePlay()
+    }
+
+    //*when there are split hands*://
+
+    else if (getNumHands() > 1) {
+//check activePlayer is not last player in players array and set hand to done//
+
+//if last player in array://
+if (activePlayer == players.length - 1) {
+  players[activePlayer].setHandDone()
+  console.log("Last hand reached")
+  //**do not call setActivePlayer if it's last hand in players array **/
+    // all hands finished.Could call gamePlay here
+    }
+
+    //when not last player in array set hand to done:
+    else if (activePlayer < players.length -1)
+      console.log(`Player ${activePlayer} has decided to stay. Moving to
+    next player...`)
+      players[activePlayer].setHandDone()
+
+    //switch to next player and reset displayedPlayerCards for UI
+    setActivePlayer()
+  }
+})
 
 
 const restart = () => {
