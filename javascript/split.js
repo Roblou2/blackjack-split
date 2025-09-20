@@ -1,5 +1,4 @@
-import {players, getActivePlayer, 
-  setActivePlayer, getNumHands } from "./game.js"
+import {players, getActivePlayer, getNumHands } from "./game.js"
 import { drawCard } from "./deck.js"
 import { createPlayer } from "./player.js"
 
@@ -12,6 +11,11 @@ const splitUI = document.body.querySelector('.split-player-hands')
 
 export const splitCheck = () => {
 
+  //when there are 4 hands on table
+  if (players.length == 4) {
+    return split.style.display = "none"
+  }
+
 let firstCard = players[getActivePlayer()].getFirstCard().split(" ")[0] 
 let secondCard = players[getActivePlayer()].getSecondCard().split(" ")[0]
 
@@ -20,6 +24,7 @@ let secondCard = players[getActivePlayer()].getSecondCard().split(" ")[0]
       case "jack":
       case "queen":
       case "king":
+        case 10:
         return true;
       default:
         return false;
@@ -41,6 +46,7 @@ console.log(`Cards are equal in value (${firstCard} and ${secondCard})`);
   else {
     console.log(`Cards are NOT equal (${firstCard} and ${secondCard})`);
     console.log(`isFaceCard(firstCard):", ${isFaceCard(firstCard)}, "isFaceCard(secondCard):", ${isFaceCard(secondCard)}`)
+    split.style.display = "none"
     return false
   }
 
@@ -129,4 +135,10 @@ for (let i = 0; i < players.length; i++) {
   splitUI.appendChild(div)
 }
 console.log(`Number of hands = ${getNumHands()}`)
+
+//hide or show split button after checking if activehand can be split
+
+splitCheck()
+
+
 })

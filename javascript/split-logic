@@ -1,22 +1,38 @@
-**First, will need to change player to players[activeHand] in relevant functions**
-**perhaps need to move displayedPlayerCards to createPlayer or elsewhere**
+**when an ace hand is split, need to make it so only 1 card can be drawn**
+**bug with split hand: when hand is reached, and face card and ace are the hand, 
+need to make sure it is calculated 
+as a blackjack and move onto next hand - change in splitCalcTotal**
+
 **may need to setGameState in new gamePlay() function and maybe in player object**
-**Need to setHandDone when stay button is clicked**
+
 
 
 
 ****Where am I up to?
 
-players array being made correctly upon split
 can now split so that up to 4 hands are on the table
 split testing shows it works at all activePlayer values
 now must modify hit, double down and stay functions so that
 they target the correct hand via activePlayer
 
-7/9: hit function targets hands correctly
+hit function targets hands correctly
 and game moves from hand to hand correctly when bust 
-Now to edit stay and double down functions
+
+13/9: Call gamePlay where needed.
 **UI: must not show 2nd card in split hand until it's that hand's turn**
+
+18/9: upon game start, it checks for a split.
+Now check for a split when:
+ 1. after each time split button is clicked
+2. whenever activePlayer changes
+Above has been added to split.js and game.js
+if players length is 4, set split button display to none in split.js
+
+When the split button is clicked, at the end of the function, it checks for a split again 
+via splitCheck()
+
+20/9: Logic added to game.js under setActivePlayer for when split hand is pair of aces
+Now need to test
 
 ****
 

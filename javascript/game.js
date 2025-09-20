@@ -3,7 +3,7 @@ import {gamePlay} from "./gameplay.js"
 import {createPlayer} from "./player.js"
 import {moneyManager} from "./money.js"
 import {playerTotal} from "./player.js"
-import {splitCheck} from "./split.js"
+
 
 export let gameOver = false
 //*****DOM ELEMENTS:******
@@ -30,10 +30,22 @@ let activePlayer = 0
 
 export const getActivePlayer = () => activePlayer
 export const setActivePlayer = () => {
+  //*make hit button active*//
+  hit.disabled = "false"
   activePlayer++
-
+players[activePlayer].isSplit()
   //each time the hand changes to next one, reset number of cards on UI//
   setDisplayedPlayerCards(2)
+
+  /*check if hand that is now active is a pair of aces*/
+  if (players[activePlayer].getFirstCard().split(" ")[0] == "ace" && players[activePlayer].getSecondCard().split(" ")[0] == "ace") {
+    hit.disabled = "true"
+    console.log("split hand is pair of aces so can not hit on this hand. Moving to next hand...")
+    //*move to next player*//
+    activePlayer++
+    players[activePlayer].isSplit()
+  setDisplayedPlayerCards(2)
+  }
 }
 
 playerUp.addEventListener('click', () => {
@@ -147,7 +159,7 @@ for (let i = displayedPlayerCards; i < players[activePlayer].getHand().length; i
     // Update the count of displayed player cards
     displayedPlayerCards = players[activePlayer].getHand().length;
 
-    // now check if hands has bust:
+    // now check if hand has bust:
 if (players[activePlayer].getHandDone()) {
   console.log(`Hand ${activePlayer} has busted, or has blackjack.
      Moving to next hand...`)
@@ -190,7 +202,7 @@ if (activePlayer == players.length - 1) {
     }
 
     //when not last player in array set hand to done:
-    else if (activePlayer < players.length -1)
+    else if (activePlayer < players.length -1) {
       console.log(`Player ${activePlayer} has decided to stay. Moving to
     next player...`)
       players[activePlayer].setHandDone()
@@ -198,6 +210,7 @@ if (activePlayer == players.length - 1) {
     //switch to next player and reset displayedPlayerCards for UI
     setActivePlayer()
   }
+}
 })
 
 

@@ -1,6 +1,6 @@
 import {drawCard} from "./deck.js"
 import {player} from "./game.js"
-import {getGameState, setGameState, setActivePlayer, getActivePlayer, getNumHands, players } from "./game.js"
+import {getGameState, setGameState, getActivePlayer, getNumHands, players } from "./game.js"
 import { moneyManager } from "./money.js"
 import {splitCheck} from "./split.js"
 
